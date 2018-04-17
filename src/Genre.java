@@ -1,4 +1,9 @@
 
 public class Genre {
-	private String genre;
+	private String name;
+
+	public String getName() {
+		return name;
+	}
+	
 }
