@@ -67,7 +67,7 @@ public class Kiosk {
 			return nextView;
 		}
 
-		// TODO - handle entry of non integer input
+		// TODO - handle entry of non integer input. alternatively handle everything with ASCII value??
 		int choice = Integer.parseInt(choiceMade);
 		switch (choice) {
 			case 1:
