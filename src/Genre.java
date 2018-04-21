@@ -2,6 +2,10 @@ public class Genre {
 	private String name;
 	private int moviesInThisGenre;
 
+	public Genre(String name) {
+		this.name = name;
+	}
+	
 	public String getName() {
 		return name;
 	}

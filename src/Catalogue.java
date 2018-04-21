@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class Catalogue {
@@ -34,6 +35,39 @@ public class Catalogue {
 		return moviesAvailable.size();
 	}
 
+	/**
+	 * Return the Movie, if the Title and the YEar of release are an exact match. Remember the Movie may be available or rented out
+	 * @param movieName
+	 * @param movieYear
+	 * @return
+	 */
+	public Movie findMovie(String movieName, int movieYear) {
+		Iterator<Movie> availableMoviesIterator = this.moviesAvailable.iterator();
+		while (availableMoviesIterator.hasNext()) {
+			Movie oneMovie = availableMoviesIterator.next();
+			if (oneMovie.getTitle().equals(movieName) && oneMovie.getYear() == movieYear) {
+				return oneMovie;
+			}
+		}
+		Iterator<Movie> rentedMoviesIterator = this.moviesRented.iterator();
+		while (rentedMoviesIterator.hasNext()) {
+			Movie oneMovie = rentedMoviesIterator.next();
+			if (oneMovie.getTitle().equals(movieName) && oneMovie.getYear() == movieYear) {
+				return oneMovie;
+			}
+		}
+		
+		return null;
+	}
+
+	public Movie removeMovieFromCatalogue(String movieName, int movieYear) {
+		Movie movieToRemove = findMovie(movieName, movieYear);
+		if ((movieToRemove != null) && (movieToRemove.getStatus() == Movie.MOVIE_AVAILABLE)) {
+			moviesAvailable.remove(movieToRemove);
+		}
+		return movieToRemove;
+	}
+	
 	public List<Movie> getMoviesAvailable() {
 		return moviesAvailable;
 	}

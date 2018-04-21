@@ -144,25 +144,127 @@ public class Kiosk {
 	}
 
 	private String processAdminListAllCustomers() {
-		return "";
+		Iterator<Customer> customerIterator = this.customers.listIterator();
+		if (!customerIterator.hasNext()) {
+			System.out.println("The Kiosk has no customers.");
+			System.out.println("");
+			return "KioskAdminView";
+		}
+
+		// AMRI: understand why I am printing out one customer here and looping for all the others
+		System.out.println(customerIterator.next().toString());
+		while (customerIterator.hasNext()) {
+			System.out.println(customerIterator.next().toString());			
+		}
+
+		System.out.println("");
+		return "KioskAdminView";
 	}
 
 	private String processAdminAddCustomer() {
-		return "";
+		System.out.println("Adding a new customer.");
+		Scanner inputScanner = new Scanner(System.in);
+
+		System.out.print("Enter a new ID: ");
+		
+		// try to add a new customer with the ID and name entered. If ID is already used, call that out
+		int newCustomerID = inputScanner.nextInt();
+		inputScanner.nextLine(); // do this to skip the enter button press
+		while (isCustomerIDInUse(newCustomerID)) {
+			System.out.print("ID is already in use. Enter a new ID: ");
+			
+			newCustomerID = inputScanner.nextInt();
+			inputScanner.nextLine();
+		}
+		System.out.print("Enter the customer's name: ");
+		String newCustomerName = inputScanner.nextLine();
+
+		System.out.print("Enter the customer's initial balance: ");
+		int newCustomerBalance = inputScanner.nextInt();
+		inputScanner.nextLine(); // do this to skip the enter button press
+
+		Customer newCustomer = new Customer(newCustomerID, newCustomerName, newCustomerBalance);
+		this.customers.add(newCustomer);
+		System.out.println("Customer added.");
+		System.out.println("");
+
+		return "KioskAdminView";
+	}
+	
+	/**
+	 * check each of the customers already enrolled to make sure no one has the same ID
+	 * @param patronID
+	 * @return
+	 */
+	private boolean isCustomerIDInUse(int customerIDToCheck) {
+		Iterator<Customer> customerIterator = this.customers.listIterator();
+		while (customerIterator.hasNext()) {
+			if (customerIterator.next().getID() == customerIDToCheck)
+				return true;
+		}
+		return false;
 	}
 	
 	private String processAdminRemoveCustomer() {
 		return "";
 	}
-	
+		
+	/**
+	 * Add a Movie to the Catalogue
+	 * @return
+	 */
 	private String processAdminAddMovie() {
-		return "";
+		System.out.println("Adding a new movie.");
+		Scanner inputScanner = new Scanner(System.in);
+
+		System.out.print("Enter the title of the movie: ");
+		String newMovieTitle = inputScanner.nextLine();
+		
+		System.out.print("Enter the year: ");
+		String newMovieYear = inputScanner.nextLine();
+
+		System.out.print("Enter the genre: ");
+		String newMovieGenre = inputScanner.nextLine();
+
+		System.out.print("Enter the price: ");
+		String newMoviePrice = inputScanner.nextLine();
+
+		Movie newMovie= new Movie(newMovieTitle, Integer.parseInt(newMovieYear), Integer.parseInt(newMoviePrice), new Genre(newMovieGenre));
+		catalogue.addMovieToCatalogue(newMovie);
+
+		System.out.println("Added " + newMovieTitle + " to catalogue.");
+		System.out.println("");
+		return "KioskAdminView";
 	}
 	
+	/**
+	 * Remove a Movie from the Catalogue.
+	 * Remember that the movie being removed, may not be in the catalogue or may be rented out and in either case, cannot be removed from
+	 * the catalogue. 
+	 * @return
+	 */
 	private String processAdminRemoveMovie() {
-		return "";
+		System.out.println("Removing a movie.");
+		Scanner inputScanner = new Scanner(System.in);
+
+		System.out.print("Enter the title of the movie: ");
+		String titleOfMovieToRemove = inputScanner.nextLine();
+		System.out.print("Enter the year: ");
+		int yearOfMovieToRemove = Integer.parseInt(inputScanner.nextLine());
+		
+		Movie movieToRemove = catalogue.findMovie(titleOfMovieToRemove, yearOfMovieToRemove);
+		if (movieToRemove == null) {
+			System.out.println("Movie " + titleOfMovieToRemove + ", year " + yearOfMovieToRemove + " is not in catalogue.");
+		} else if (movieToRemove.getStatus() == Movie.MOVIE_RENTED_OUT) {
+			System.out.println("Movie " + titleOfMovieToRemove + ", year " + yearOfMovieToRemove + " is currently rented out.");			
+		} else if (catalogue.removeMovieFromCatalogue(titleOfMovieToRemove, yearOfMovieToRemove) != null) {
+			System.out.println("Removed " + titleOfMovieToRemove + " from catalogue.");			
+		}
+		System.out.println("");
+		return "KioskAdminView";
 	}
 	
+
 	private void runNextView(String nextView) {
 		if (nextView.equals("KioskMasterView")) {
 			runKioskMasterView();			
@@ -244,13 +346,14 @@ public class Kiosk {
 		} else {
 			System.out.println("The catalogue has the following movies: ");
 			while (moviesAvailableIterator.hasNext()) {
-				System.out.println("\t" + moviesAvailableIterator.next().toString());
+				System.out.println(moviesAvailableIterator.next().toString());
 			}			
 			while (moviesRentedIterator.hasNext()) {
-				System.out.println("\t" + moviesRentedIterator.next().toString());
+				System.out.println(moviesRentedIterator.next().toString());
 			}			
 				
 		}
+		System.out.println("");
 		return "KioskCatalogueView";
 	}
 
