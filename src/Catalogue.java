@@ -68,6 +68,20 @@ public class Catalogue {
 		return movieToRemove;
 	}
 	
+
+	/**
+	 * 
+	 * AMRI: this is a standard pattern when adding/removing 'things'. Return the thing being added, as confirmation that the add went through.
+	 * Caller will check to see that return is not a 'null' which would indicate something went wrong
+	 * @param movieBeingRented
+	 * @return
+	 */
+	public Movie rentAMovie(Movie movieBeingRented) {
+		moviesRented.add(movieBeingRented);
+		moviesAvailable.remove(movieBeingRented);
+		return movieBeingRented;
+	}
+
 	public List<Movie> getMoviesAvailable() {
 		return moviesAvailable;
 	}
@@ -86,7 +100,5 @@ public class Catalogue {
 
 	public List<Genre> getGenres() {
 		return genres;
-	}
-
-	
+	}	
 }
