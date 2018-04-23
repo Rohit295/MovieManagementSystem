@@ -32,5 +32,10 @@ public class Genre {
 			return super.equals(obj);			
 		}
 	}
+
+	@Override
+	public String toString() {
+		return name;
+	}
 	
 }

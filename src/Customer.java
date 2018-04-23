@@ -3,6 +3,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 public class Customer {
 
@@ -52,7 +54,6 @@ public class Customer {
 	public void setBalance(int balance) {
 		this.balance = balance;
 	}
-
 
 	/** 
 	 * Use this to check if this Customer can rent a Movie at all
@@ -117,6 +118,28 @@ public class Customer {
 				break;
 			}
 		}		
+	}
+	
+	public int topUpBalance(int amountToTopUp) {
+		balance += amountToTopUp;
+		return balance;
+	}
+	
+	
+	/**
+	 * Return the customer's favorite movies list as a list sorted on #times movie has been watched. Logic is simple: read all the movies in the
+	 * renting history and return it as a Map where the count is the key
+	 * @return
+	 */
+	public SortedMap<Integer, Movie> getCustomerFavoriteMovies() {
+		TreeMap<Integer, Movie> sortedMoviesMap = new TreeMap<Integer, Movie>();
+		Iterator<Movie> movieIterator = rentingHistory.keySet().iterator();
+		while (movieIterator.hasNext()) {
+			Movie movieToInsert = (Movie)movieIterator.next(); 
+			sortedMoviesMap.put(rentingHistory.get(movieToInsert), movieToInsert);
+		}
+		
+		return sortedMoviesMap;
 	}
 	
 	public String toString() {

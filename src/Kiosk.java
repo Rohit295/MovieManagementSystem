@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 public class Kiosk {
@@ -75,8 +76,11 @@ public class Kiosk {
 			case 1:
 				nextView = "KioskCatalogueView";
 				break;
-			case 2:
-				//nextView = processKioskPatronRecord();
+			case 3:
+				nextView = processCustomerFavorites();
+				break;
+			case 4:
+				nextView = processCustomerTopUp();
 				break;
 			case 5:
 				nextView = "KioskAdminView";
@@ -100,6 +104,70 @@ public class Kiosk {
 		System.out.println("6. Remove a movie from the catalogue.");
 		System.out.println("R. Return to the previous menu.");
 		System.out.print("Enter a choice: ");
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	private String processCustomerTopUp() {
+		System.out.println(" ");
+		Scanner inputScanner = new Scanner(System.in);
+
+		System.out.print("Enter a valid customer ID: ");
+		
+		// Ensure a valid customer ID is entered and then top up
+		int customerIDToTopUp = inputScanner.nextInt();
+		inputScanner.nextLine(); // do this to skip the enter button press
+		while (!isCustomerIDInUse(customerIDToTopUp )) {
+			System.out.print("ID does not exist. Enter a valid customer ID: ");
+			
+			customerIDToTopUp  = inputScanner.nextInt();
+			inputScanner.nextLine();
+		}
+		System.out.print("Enter the top up amount: ");
+		int amountToTopUp = inputScanner.nextInt();
+		inputScanner.nextLine(); // do this to skip the enter button press
+
+		// AMRI: transaction is so simple, that I put out the confirmation before doing it. If it was more complicated,
+		// I would print a confirmation only after finishing
+		Customer customerToTopUp = findCustomer(customerIDToTopUp);
+		System.out.println(" ");
+		System.out.println("Transaction complete."); 
+		System.out.println(customerToTopUp.getName() +"'s balance was: " + "$" + customerToTopUp.getBalance());
+		customerToTopUp.topUpBalance(amountToTopUp);
+		System.out.println(customerToTopUp.getName() +"'s current balance is: " + "$" + customerToTopUp.getBalance());
+
+		return "KioskMasterView";
+	}
+
+	private String processCustomerFavorites() {
+		System.out.println(" ");
+		Scanner inputScanner = new Scanner(System.in);
+
+		System.out.print("Enter a valid customer ID: ");
+		
+		// Ensure a valid customer ID is entered and then list person's favorites
+		int customerIDToTopUp = inputScanner.nextInt();
+		inputScanner.nextLine(); // do this to skip the enter button press
+		while (!isCustomerIDInUse(customerIDToTopUp )) {
+			System.out.print("ID does not exist. Enter a valid customer ID: ");
+			
+			customerIDToTopUp  = inputScanner.nextInt();
+			inputScanner.nextLine();
+		}
+
+		Customer customerToTopUp = findCustomer(customerIDToTopUp);
+		Map<Integer, Movie> customerFavoriteMovies = customerToTopUp.getCustomerFavoriteMovies();
+		System.out.println(customerToTopUp.getName() +"'s favorite movies are:");
+		
+		Iterator<Integer> countIterator = customerFavoriteMovies.keySet().iterator();
+		while (countIterator.hasNext()) {
+			Integer counter = (Integer)countIterator.next();
+			System.out.println(customerFavoriteMovies.get(counter));
+		}
+
+		return "KioskMasterView";
 	}
 
 	/**
@@ -299,7 +367,8 @@ public class Kiosk {
 			System.out.println("Movie " + titleOfMovieToRemove + ", year " + yearOfMovieToRemove + " is not in catalogue.");
 		} else if (movieToRemove.getStatus() == Movie.MOVIE_RENTED_OUT) {
 			System.out.println("Movie " + titleOfMovieToRemove + ", year " + yearOfMovieToRemove + " is currently rented out.");			
-		} else if (catalogue.removeMovieFromCatalogue(titleOfMovieToRemove, yearOfMovieToRemove) != null) {
+		} else { 
+			catalogue.removeMovieFromCatalogue(movieToRemove);
 			System.out.println("Removed " + titleOfMovieToRemove + " from catalogue.");			
 		}
 		return "KioskAdminView";
@@ -357,11 +426,9 @@ public class Kiosk {
 			case 4:
 				nextView = listAllMoviesInAGenre();
 				break;
-/*
 			case 5:
 				nextView = listAllMoviesByYear();
 				break;
-*/
 			case 6:
 				nextView = rentAMovie();
 				break;
@@ -483,6 +550,51 @@ public class Kiosk {
 		return "KioskCatalogueView";
 	}
 	
+	private String listAllMoviesByYear() {
+		Scanner inputScanner = new Scanner(System.in);
+
+		System.out.println("");
+		System.out.print("Enter the year: ");
+		int movieYear = inputScanner.nextInt();
+		inputScanner.nextLine();
+
+		boolean isMovieMatchingYear = false;
+		
+		Iterator<Movie> moviesAvailableIterator = this.catalogue.getMoviesAvailable().iterator();
+		Iterator<Movie> moviesRentedIterator = this.catalogue.getMoviesRented().iterator();
+		if (!moviesAvailableIterator.hasNext() && !moviesRentedIterator.hasNext()) {
+			System.out.println("This Kiosk has no movies right now.");
+		} else {
+			// we need to go through movies in Catalogue whether available OR out on loan and see if they belong to this year
+			while (moviesAvailableIterator.hasNext()) {
+				Movie movieToCheck = moviesAvailableIterator.next(); 
+				if (movieToCheck.getYear() == movieYear) {
+					if (!isMovieMatchingYear) {
+						isMovieMatchingYear = true;
+						System.out.println("This Kiosk has the following movies of this year available: ");
+					}
+					System.out.println(movieToCheck.toString());
+				}
+			}			
+			while (moviesRentedIterator.hasNext()) {
+				Movie movieToCheck = moviesRentedIterator.next(); 
+				if (movieToCheck.getYear() == movieYear) {
+					if (!isMovieMatchingYear) {
+						isMovieMatchingYear = true;
+						System.out.println("The kiosk has the following movies of this year available: ");
+					}
+					System.out.println(movieToCheck.toString());
+				}
+			}			
+		}
+
+		if (!isMovieMatchingYear) {
+			System.out.println("There are no movies of this year right now.");
+		} 			
+		
+		return "KioskCatalogueView";
+	}
+	
 	private String rentAMovie() {
 		Scanner inputScanner = new Scanner(System.in);
 		System.out.println(" ");
@@ -520,7 +632,7 @@ public class Kiosk {
 		} else if (customerRentStatus == Customer.CUSTOMER_CAN_RENT) {
 			customerRentingMovie.rentAMovie(movieToRent);
 			catalogue.rentAMovie(movieToRent);
-			movieToRent.setStatus(Movie.MOVIE_RENTED_OUT);
+			movieToRent.rentMovie(customerRentingMovie);
 			System.out.println("Movie rented.");
 		}
 		

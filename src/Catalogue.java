@@ -18,20 +18,21 @@ public class Catalogue {
 
 	/**
 	 * 
-	 * @param book
+	 * @param Movie
 	 * @return
 	 */
 	public int addMovieToCatalogue(Movie movie) {
+		// todo: should I check if the movie is already added and prevent duplicates
+		
 		this.moviesAvailable.add(movie);
 		
-		// when adding the book, also add the genre to the Catalogue. Ensure this is unique
+		// when adding the movie, also add the genre to the Catalogue. Ensure this is unique
 		// ref: https://stackoverflow.com/questions/2642589/how-does-a-arraylists-contains-method-evaluate-objects
 		if (!genres.contains(movie.getGenre())) {
 			genres.add(movie.getGenre());
-		} else {
-			genres.get(genres.indexOf(movie.getGenre())).addToGenre();
 		}
 		
+		genres.get(genres.indexOf(movie.getGenre())).addToGenre();
 		return moviesAvailable.size();
 	}
 
@@ -60,11 +61,18 @@ public class Catalogue {
 		return null;
 	}
 
-	public Movie removeMovieFromCatalogue(String movieName, int movieYear) {
-		Movie movieToRemove = findMovie(movieName, movieYear);
-		if ((movieToRemove != null) && (movieToRemove.getStatus() == Movie.MOVIE_AVAILABLE)) {
+	public Movie removeMovieFromCatalogue(Movie movieToRemove) {
+		if (movieToRemove.getStatus() == Movie.MOVIE_AVAILABLE) {
 			moviesAvailable.remove(movieToRemove);
+
+			// Adjust the genre information
+			Genre genreMovieToRemove = genres.get(genres.indexOf(movieToRemove.getGenre()));
+			genreMovieToRemove.removeFromGenre();
+			if (genreMovieToRemove.getMoviesInThisGenre() == 0) {
+				genres.remove(genreMovieToRemove);
+			}
 		}
+		
 		return movieToRemove;
 	}
 	
@@ -82,6 +90,13 @@ public class Catalogue {
 		return movieBeingRented;
 	}
 
+	
+	public Movie returnAMovie (Movie movieBeingReturned) {
+		moviesRented.add(movieBeingReturned);
+		moviesAvailable.remove(movieBeingReturned);
+		return movieBeingReturned;		
+	}
+	
 	public List<Movie> getMoviesAvailable() {
 		return moviesAvailable;
 	}

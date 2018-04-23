@@ -5,6 +5,8 @@ public class Movie {
 	private int price;
 	private Genre genre;
 	private int status;
+	
+	private Customer rentedBy;
 
 	// Constants describing movie's delete status
 	public static final int MOVIE_AVAILABLE = 1;	
@@ -59,8 +61,15 @@ public class Movie {
 	public int getStatus() {
 		return status;
 	}
+	
 
-	public void setStatus(int status) {
-		this.status = status;
+	public void rentMovie(Customer rentedBy) {
+		this.rentedBy = rentedBy;
+		status = MOVIE_RENTED_OUT;
+	}
+
+	public void returnMovie() {
+		this.rentedBy = null;
+		status = MOVIE_AVAILABLE;
 	}
 }
