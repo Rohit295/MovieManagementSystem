@@ -76,6 +76,9 @@ public class Kiosk {
 			case 1:
 				nextView = "KioskCatalogueView";
 				break;
+			case 2:
+				nextView = processCustomerRecord();
+				break;
 			case 3:
 				nextView = processCustomerFavorites();
 				break;
@@ -104,6 +107,28 @@ public class Kiosk {
 		System.out.println("6. Remove a movie from the catalogue.");
 		System.out.println("R. Return to the previous menu.");
 		System.out.print("Enter a choice: ");
+	}
+
+	private String processCustomerRecord() {
+		System.out.println(" ");
+		Scanner inputScanner = new Scanner(System.in);
+
+		System.out.print("Enter a valid customer ID: ");
+		
+		// Ensure a valid customer ID is entered and then top up
+		int customerIDToTopUp = inputScanner.nextInt();
+		inputScanner.nextLine(); // do this to skip the enter button press
+		while (!isCustomerIDInUse(customerIDToTopUp )) {
+			System.out.print("ID does not exist. Enter a valid customer ID: ");
+			
+			customerIDToTopUp  = inputScanner.nextInt();
+			inputScanner.nextLine();
+		}
+
+		Customer customerToTopUp = findCustomer(customerIDToTopUp);
+		System.out.println(customerToTopUp.toString());
+
+		return "KioskMasterView";
 	}
 
 	/**
@@ -162,8 +187,10 @@ public class Kiosk {
 		System.out.println(customerToTopUp.getName() +"'s favorite movies are:");
 
 		Iterator<String> countIterator = customerFavoriteMovies.keySet().iterator();
-		while (countIterator.hasNext()) {
+		int countOfMovies = 0;
+		while (countIterator.hasNext() && countOfMovies < 3) {
 			System.out.println(customerFavoriteMovies.get(countIterator.next()));
+			countOfMovies++;
 		}
 
 		return "KioskMasterView";
