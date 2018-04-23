@@ -158,13 +158,12 @@ public class Kiosk {
 		}
 
 		Customer customerToTopUp = findCustomer(customerIDToTopUp);
-		Map<Integer, Movie> customerFavoriteMovies = customerToTopUp.getCustomerFavoriteMovies();
+		Map<String, Movie> customerFavoriteMovies = customerToTopUp.getCustomerFavoriteMovies();
 		System.out.println(customerToTopUp.getName() +"'s favorite movies are:");
-		
-		Iterator<Integer> countIterator = customerFavoriteMovies.keySet().iterator();
+
+		Iterator<String> countIterator = customerFavoriteMovies.keySet().iterator();
 		while (countIterator.hasNext()) {
-			Integer counter = (Integer)countIterator.next();
-			System.out.println(customerFavoriteMovies.get(counter));
+			System.out.println(customerFavoriteMovies.get(countIterator.next()));
 		}
 
 		return "KioskMasterView";
@@ -395,7 +394,7 @@ public class Kiosk {
 		System.out.println("4. Display all movies in a genre.");
 		System.out.println("5. Display all movies by year.");
 		System.out.println("6. Rent a movie.");
-		System.out.println("6. Return a movie.");
+		System.out.println("7. Return a movie.");
 		System.out.println("R. Return to the previous menu.");
 		System.out.print("Enter a choice: ");
 	}
@@ -432,7 +431,7 @@ public class Kiosk {
 			case 6:
 				nextView = rentAMovie();
 				break;
-			case 8:
+			case 7:
 				nextView = returnAMovie();
 				break;
 			default:
@@ -630,9 +629,9 @@ public class Kiosk {
 		} else if (customerRentStatus == Customer.CUSTOMER_OUT_OF_BALANCE) {
 			System.out.println("You don't have sufficient funds to rent this movie.");			
 		} else if (customerRentStatus == Customer.CUSTOMER_CAN_RENT) {
-			customerRentingMovie.rentAMovie(movieToRent);
 			catalogue.rentAMovie(movieToRent);
-			movieToRent.rentMovie(customerRentingMovie);
+			customerRentingMovie.rentAMovie(movieToRent);
+			movieToRent.rentMovie();
 			System.out.println("Movie rented.");
 		}
 		
@@ -640,6 +639,42 @@ public class Kiosk {
 	}
 	
 	private String returnAMovie() {		
+		Scanner inputScanner = new Scanner(System.in);
+		System.out.println(" ");
+
+		// Find a valid customer ID, to return a movie for
+		System.out.print("Enter a valid customer ID: ");		
+		int idCustomerWhoWantsToReturn = inputScanner.nextInt();
+		inputScanner.nextLine(); // do this to skip the enter button press
+		while (!isCustomerIDInUse(idCustomerWhoWantsToReturn)) {
+			System.out.print("ID does not exist. Enter a valid customer ID: ");
+			
+			idCustomerWhoWantsToReturn = inputScanner.nextInt();
+			inputScanner.nextLine();
+		}
+		Customer customerReturningMovie = findCustomer(idCustomerWhoWantsToReturn);
+		
+		System.out.print("Enter the title of the movie you wish to return: ");
+		String nameMovieToRent = inputScanner.nextLine();
+
+		Movie movieToReturn = catalogue.findMovie(nameMovieToRent, 0);
+		if (movieToReturn == null) {
+			System.out.println("This movie is not in the Catalogue.");						
+			return "KioskCatalogueView";
+		} 
+		
+		
+		if (movieToReturn.getStatus() != Movie.MOVIE_RENTED_OUT) {
+			System.out.println("This movie is not rented out.");								
+		} else if (!customerReturningMovie.hasRentedMovie(movieToReturn)) {
+			System.out.println("This movie is not rented out by this customer.");											
+		} else {
+			catalogue.returnAMovie(movieToReturn);
+			customerReturningMovie.returnAMovie(movieToReturn);
+			movieToReturn.returnMovie();
+			System.out.println("Movie returned.");
+		}
+
 		return "KioskCatalogueView";
 	}
 }

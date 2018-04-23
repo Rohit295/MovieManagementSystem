@@ -38,6 +38,7 @@ public class Catalogue {
 
 	/**
 	 * Return the Movie, if the Title and the YEar of release are an exact match. Remember the Movie may be available or rented out
+	 * Also the year may not be passed in some cases. There do not worry about year and just use name
 	 * @param movieName
 	 * @param movieYear
 	 * @return
@@ -46,18 +47,17 @@ public class Catalogue {
 		Iterator<Movie> availableMoviesIterator = this.moviesAvailable.iterator();
 		while (availableMoviesIterator.hasNext()) {
 			Movie oneMovie = availableMoviesIterator.next();
-			if (oneMovie.getTitle().equals(movieName) && oneMovie.getYear() == movieYear) {
+			if (oneMovie.getTitle().equals(movieName) && (oneMovie.getYear() == movieYear || movieYear == 0)) {
 				return oneMovie;
 			}
 		}
 		Iterator<Movie> rentedMoviesIterator = this.moviesRented.iterator();
 		while (rentedMoviesIterator.hasNext()) {
 			Movie oneMovie = rentedMoviesIterator.next();
-			if (oneMovie.getTitle().equals(movieName) && oneMovie.getYear() == movieYear) {
+			if (oneMovie.getTitle().equals(movieName) && (oneMovie.getYear() == movieYear || movieYear == 0)) {
 				return oneMovie;
 			}
 		}
-		
 		return null;
 	}
 
@@ -85,15 +85,15 @@ public class Catalogue {
 	 * @return
 	 */
 	public Movie rentAMovie(Movie movieBeingRented) {
-		moviesRented.add(movieBeingRented);
 		moviesAvailable.remove(movieBeingRented);
+		moviesRented.add(movieBeingRented);
 		return movieBeingRented;
 	}
 
 	
 	public Movie returnAMovie (Movie movieBeingReturned) {
-		moviesRented.add(movieBeingReturned);
-		moviesAvailable.remove(movieBeingReturned);
+		moviesRented.remove(movieBeingReturned);
+		moviesAvailable.add(movieBeingReturned);
 		return movieBeingReturned;		
 	}
 	

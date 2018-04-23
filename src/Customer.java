@@ -1,4 +1,6 @@
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -105,6 +107,13 @@ public class Customer {
 		return movieToRent;
 	}
 	
+	public boolean hasRentedMovie(Movie movieToCheck) {
+		if (currentlyRented.contains(movieToCheck))
+			return true;
+		else		
+			return false;
+	}
+	
 	/**
 	 * when this customer returns a movie, simply remove it from Currently Rented list
 	 * @param movieToReturn
@@ -131,15 +140,21 @@ public class Customer {
 	 * renting history and return it as a Map where the count is the key
 	 * @return
 	 */
-	public SortedMap<Integer, Movie> getCustomerFavoriteMovies() {
-		TreeMap<Integer, Movie> sortedMoviesMap = new TreeMap<Integer, Movie>();
+	public Map<String, Movie> getCustomerFavoriteMovies() {
+		Map<String, Movie> sortedMoviesMap = new TreeMap<String, Movie>();
+		Map<String, Movie> sortedDescendingMoviesMap = new TreeMap<String, Movie>(Collections.reverseOrder());
+
 		Iterator<Movie> movieIterator = rentingHistory.keySet().iterator();
 		while (movieIterator.hasNext()) {
-			Movie movieToInsert = (Movie)movieIterator.next(); 
-			sortedMoviesMap.put(rentingHistory.get(movieToInsert), movieToInsert);
-		}
-		
-		return sortedMoviesMap;
+			Movie movieToInsert = (Movie)movieIterator.next();
+			
+			// remember 2 movies could have been watched the same number of times. So important to add teh movie name & year to the count, to make it unique
+			// further remember that favourites have to be shown in reverse order, so I need to reverse
+			// ref: https://stackoverflow.com/questions/9338209/how-to-print-treemap-in-reverse-order
+			sortedMoviesMap.put(rentingHistory.get(movieToInsert) + movieToInsert.getTitle() + movieToInsert.getYear(), movieToInsert);
+			sortedDescendingMoviesMap.putAll(sortedMoviesMap);
+		}		
+		return sortedDescendingMoviesMap;
 	}
 	
 	public String toString() {
