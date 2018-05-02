@@ -118,16 +118,24 @@ public class Kiosk {
 		// Ensure a valid customer ID is entered and then top up
 		int customerIDToTopUp = inputScanner.nextInt();
 		inputScanner.nextLine(); // do this to skip the enter button press
+		
+		
+		/**
 		while (!isCustomerIDInUse(customerIDToTopUp )) {
 			System.out.print("ID does not exist. Enter a valid customer ID: ");
 			
 			customerIDToTopUp  = inputScanner.nextInt();
 			inputScanner.nextLine();
 		}
+		**/
 
-		Customer customerToTopUp = findCustomer(customerIDToTopUp);
-		System.out.println(customerToTopUp.toString());
-
+		if (!isCustomerIDInUse(customerIDToTopUp )) {
+			System.out.print("That customer does not exist. ");
+		} else {
+			Customer customerToTopUp = findCustomer(customerIDToTopUp);
+			System.out.println(customerToTopUp.toString());
+		}
+		
 		return "KioskMasterView";
 	}
 
