@@ -65,9 +65,8 @@ public class Catalogue {
 			moviesAvailable.remove(movieToRemove);
 
 			// Adjust the genre information Check to see if there are more movies, with the same genre of the movie being removed.
-			// Since we are counting, remember there is at least 1 movie with the Genre being checked so remove only when count is exactly 1  
 			Genre genreMovieToRemove = genres.get(genres.indexOf(movieToRemove.getGenre()));
-			if (countMoviesInThisGenre(genreMovieToRemove) == 1) {
+			if (!isMoviesInThisGenre(genreMovieToRemove)) {
 				genres.remove(genreMovieToRemove);
 			}
 		}
@@ -76,28 +75,29 @@ public class Catalogue {
 	}
 	
 	/**
-	 * Helper method to return the count of movies, in the catalogue, with the specific Genre
+	 * Helper method to check if any other movies, in the catalogue, have the specific Genre
 	 * @param genreToCheck
 	 * @return
 	 */
-	private int countMoviesInThisGenre(Genre genreToCheck) {
-		int countMoviesInGenre = 0;
+	private boolean isMoviesInThisGenre(Genre genreToCheck) {
 		
 		Iterator<Movie> availableMoviesIterator = this.moviesAvailable.iterator();
 		while (availableMoviesIterator.hasNext()) {
 			Movie oneMovie = availableMoviesIterator.next();
 			if (oneMovie.getGenre().equals(genreToCheck)) {
-				countMoviesInGenre++;
+				return true;
 			}
 		}
+		
 		Iterator<Movie> rentedMoviesIterator = this.moviesRented.iterator();
 		while (rentedMoviesIterator.hasNext()) {
 			Movie oneMovie = rentedMoviesIterator.next();
 			if (oneMovie.getGenre().equals(genreToCheck)) {
-				countMoviesInGenre++;
+				return true;
 			}
 		}
-		return countMoviesInGenre;
+		
+		return false;
 	}
 
 	/**
