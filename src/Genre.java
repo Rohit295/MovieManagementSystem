@@ -1,6 +1,5 @@
 public class Genre {
 	private String name;
-	private int moviesInThisGenre;
 
 	public Genre(String name) {
 		this.name = name;
@@ -8,18 +7,6 @@ public class Genre {
 	
 	public String getName() {
 		return name;
-	}
-
-	public int getMoviesInThisGenre() {
-		return moviesInThisGenre;
-	}
-	
-	public void addToGenre() {
-		moviesInThisGenre++;
-	}
-
-	public void removeFromGenre() {
-		moviesInThisGenre--;
 	}
 
 	@Override
