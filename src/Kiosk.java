@@ -119,7 +119,6 @@ public class Kiosk {
 		int customerIDToTopUp = inputScanner.nextInt();
 		inputScanner.nextLine(); // do this to skip the enter button press
 		
-		
 		/**
 		while (!isCustomerIDInUse(customerIDToTopUp )) {
 			System.out.print("ID does not exist. Enter a valid customer ID: ");
@@ -152,12 +151,13 @@ public class Kiosk {
 		// Ensure a valid customer ID is entered and then top up
 		int customerIDToTopUp = inputScanner.nextInt();
 		inputScanner.nextLine(); // do this to skip the enter button press
-		while (!isCustomerIDInUse(customerIDToTopUp )) {
-			System.out.print("ID does not exist. Enter a valid customer ID: ");
-			
-			customerIDToTopUp  = inputScanner.nextInt();
-			inputScanner.nextLine();
+
+		// if the customer ID is not already created, exit this flow
+		if (!isCustomerIDInUse(customerIDToTopUp )) {
+			System.out.print("That customer does not exist. ");
+			return "KioskMasterView";			
 		}
+		
 		System.out.print("Enter the top up amount: ");
 		int amountToTopUp = inputScanner.nextInt();
 		inputScanner.nextLine(); // do this to skip the enter button press
