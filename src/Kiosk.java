@@ -28,12 +28,11 @@ public class Kiosk {
 	}
 	
 	private void runKioskMasterView() {
-		System.out.println(" ");
 
 		System.out.println("Welcome to the Movie Kiosk! Please make a selection from the menu:");
 		System.out.println("1. Explore the catalogue.");
 		System.out.println("2. View your customer record.");
-		System.out.println("3. Show you favorite movies.");
+		System.out.println("3. Show you favourite movies.");
 		System.out.println("4. Top up account.");
 		System.out.println("5. Enter Admin mode.");
 		System.out.println("X. Exit the system.");
@@ -96,7 +95,6 @@ public class Kiosk {
 	}
 
 	private void runKioskAdminView() {
-		System.out.println(" ");
 
 		System.out.println("Welcome to the administration menu:");
 		System.out.println("1. List all customers.");
@@ -105,7 +103,7 @@ public class Kiosk {
 		System.out.println("4. List all movies.");
 		System.out.println("5. Add a movie to the catalogue.");
 		System.out.println("6. Remove a movie from the catalogue.");
-		System.out.println("R. Return to the previous menu.");
+		System.out.println("R. Return to previous menu.");
 		System.out.print("Enter a choice: ");
 	}
 
@@ -420,13 +418,12 @@ public class Kiosk {
 	}
 	
 	private void runKioskCatalogueView() {
-		System.out.println(" ");
 
 		System.out.println("Welcome to the Catalogue! Please make a selection from the menu:");
 		System.out.println("1. Display all movies.");
 		System.out.println("2. Display all available movies.");
 		System.out.println("3. Display all genres.");
-		System.out.println("4. Display all movies in a genre.");
+		System.out.println("4. Display movies in a genre.");
 		System.out.println("5. Display all movies by year.");
 		System.out.println("6. Rent a movie.");
 		System.out.println("7. Return a movie.");
