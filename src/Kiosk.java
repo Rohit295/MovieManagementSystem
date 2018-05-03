@@ -26,7 +26,7 @@ public class Kiosk {
 		runKioskActions("KioskMasterView");
 	}
 	
-	private void runKioskMasterView() {
+	private void runKioskMasterView() { //test
 
 		System.out.println("Welcome to the Movie Kiosk! Please make a selection from the menu:");
 		System.out.println("1. Explore the catalogue.");
