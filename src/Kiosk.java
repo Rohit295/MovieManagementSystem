@@ -130,10 +130,11 @@ public class Kiosk {
 
 		if (!isCustomerIDInUse(customerIDToTopUp )) {
 			System.out.print("That customer does not exist. ");
-		} else {
-			Customer customerToTopUp = findCustomer(customerIDToTopUp);
-			System.out.println(customerToTopUp.toString());
-		}
+			return "KioskMasterView";			
+		} 
+		
+		Customer customerToTopUp = findCustomer(customerIDToTopUp);
+		System.out.println(customerToTopUp.toString());
 		
 		return "KioskMasterView";
 	}
@@ -181,26 +182,34 @@ public class Kiosk {
 		System.out.print("Enter a valid customer ID: ");
 		
 		// Ensure a valid customer ID is entered and then list person's favorites
-		int customerIDToTopUp = inputScanner.nextInt();
+		int customerIDToListFavorites = inputScanner.nextInt();
 		inputScanner.nextLine(); // do this to skip the enter button press
-		while (!isCustomerIDInUse(customerIDToTopUp )) {
-			System.out.print("ID does not exist. Enter a valid customer ID: ");
-			
-			customerIDToTopUp  = inputScanner.nextInt();
-			inputScanner.nextLine();
+		
+		// if the customer ID is not already created, exit this flow
+		if (!isCustomerIDInUse(customerIDToListFavorites )) {
+			System.out.print("That customer does not exist. ");
+			return "KioskMasterView";			
 		}
 
-		Customer customerToTopUp = findCustomer(customerIDToTopUp);
-		Map<String, Movie> customerFavoriteMovies = customerToTopUp.getCustomerFavoriteMovies();
-		System.out.println(customerToTopUp.getName() +"'s favorite movies are:");
-
-		Iterator<String> countIterator = customerFavoriteMovies.keySet().iterator();
-		int countOfMovies = 0;
-		while (countIterator.hasNext() && countOfMovies < 3) {
-			System.out.println(customerFavoriteMovies.get(countIterator.next()));
-			countOfMovies++;
+		Customer customerToListFavorites = findCustomer(customerIDToListFavorites);
+		List<Movie> customerFavoriteMovies = customerToListFavorites.getCustomerFavoriteMovies();
+		
+		// check to see that there are favorite movies. If yes, list them, else error message and exit
+		if (customerFavoriteMovies.size() == 0) {
+			System.out.print("This customer does not have favorite movies yet. ");
+			return "KioskMasterView";						
 		}
 
+		System.out.println(customerToListFavorites.getName() +"'s favorite movies are:");
+		Iterator<Movie> favMoviesIterator = customerFavoriteMovies.iterator();
+		while (favMoviesIterator.hasNext()) {
+			int countOfMovies = 0;
+			while (favMoviesIterator.hasNext() && countOfMovies < 3) {
+				System.out.println(favMoviesIterator.next());
+				countOfMovies++;
+			}
+		}
+		
 		return "KioskMasterView";
 	}
 

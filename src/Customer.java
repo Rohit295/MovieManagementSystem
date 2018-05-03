@@ -12,7 +12,7 @@ public class Customer {
 	private String name;
 	private int balance;
 	private List<Movie> currentlyRented;
-	private Map<Movie, Integer> rentingHistory;
+	private List<Movie> rentingHistory;
 	
 	public static final int CUSTOMER_CAN_RENT = 0;
 	public static final int CUSTOMER_OUT_OF_BALANCE = 1;
@@ -23,7 +23,7 @@ public class Customer {
 		this.balance = balance;
 		
 		currentlyRented = new ArrayList<Movie>(5);
-		rentingHistory = new HashMap<Movie, Integer>(5);
+		rentingHistory = new ArrayList<Movie>(5);
 	}
 
 	public int getID() {
@@ -84,24 +84,12 @@ public class Customer {
 			return null;
 		}
 		
-		// Add this Movie to the currently rented list & adjust the balance
+		// Add this Movie to the currently rented list, to the Renting History & adjust the balance. Remember the movie could get added to Renting
+		// history numerous times
 		currentlyRented.add(movieToRent);
+		rentingHistory.add(movieToRent);
 		balance -= movieToRent.getPrice();
 		
-		// Also add this movie to the Renting History. If already present, increase the renting count. If not, add to History
-		boolean movieAlreadyInHistory = false;
-		Iterator<Movie> rentHistoryIterator = rentingHistory.keySet().iterator();
-		while (rentHistoryIterator.hasNext()) {
-			Movie oneMovie = rentHistoryIterator.next();
-			if (oneMovie.getTitle().equals(movieToRent.getTitle()) && oneMovie.getYear() == movieToRent.getYear()) {
-				movieAlreadyInHistory = true;
-				Integer rentCount = rentingHistory.get(oneMovie) + 1;
-				rentingHistory.replace(oneMovie, rentCount);
-			}
-		}
-		if (!movieAlreadyInHistory) {
-			rentingHistory.put(movieToRent, new Integer(1));
-		}
 		return movieToRent;
 	}
 	
@@ -134,25 +122,38 @@ public class Customer {
 	
 	
 	/**
-	 * Return the customer's favorite movies list as a list sorted on #times movie has been watched. Logic is simple: read all the movies in the
-	 * renting history and return it as a Map where the count is the key
+	 * Return the customer's favorite movies list as a list of Movie Titles. Logic is simple: read all the movies in the renting history and make a map of Movie 
+	 * and Count of times the movie has been rented. Then sort the map on number of times rented and return the movies list
 	 * @return
 	 */
-	public Map<String, Movie> getCustomerFavoriteMovies() {
+	public List<Movie> getCustomerFavoriteMovies() {
+		Map<Movie, Integer> mapFavoriteMovies = new HashMap<Movie, Integer>(5);
+		List<Movie> moviesRented = new ArrayList<Movie>(5);
+		
+		Iterator<Movie> movieIterator = rentingHistory.iterator();
+		while (movieIterator.hasNext()) {
+			Movie oneMovie = movieIterator.next();
+			if (mapFavoriteMovies.keySet().contains(oneMovie)) {
+				Integer rentCount = mapFavoriteMovies.get(oneMovie) + 1;
+				mapFavoriteMovies.replace(oneMovie, rentCount);
+			} else {
+				mapFavoriteMovies.put(oneMovie, new Integer(1));
+			}
+		}	
+		
+		// At this point, I have created a map of all rented movies and have created a count for each movie. If I sort the map on integer count,
+		// I have the users favorite movies from most to least favorite
 		Map<String, Movie> sortedMoviesMap = new TreeMap<String, Movie>();
 		Map<String, Movie> sortedDescendingMoviesMap = new TreeMap<String, Movie>(Collections.reverseOrder());
-
-		Iterator<Movie> movieIterator = rentingHistory.keySet().iterator();
+		
+		movieIterator = mapFavoriteMovies.keySet().iterator();
 		while (movieIterator.hasNext()) {
 			Movie movieToInsert = (Movie)movieIterator.next();
-			
-			// remember 2 movies could have been watched the same number of times. So important to add teh movie name & year to the count, to make it unique
-			// further remember that favourites have to be shown in reverse order, so I need to reverse
-			// ref: https://stackoverflow.com/questions/9338209/how-to-print-treemap-in-reverse-order
-			sortedMoviesMap.put(rentingHistory.get(movieToInsert) + movieToInsert.getTitle() + movieToInsert.getYear(), movieToInsert);
-			sortedDescendingMoviesMap.putAll(sortedMoviesMap);
-		}		
-		return sortedDescendingMoviesMap;
+			sortedMoviesMap.put(((Integer)mapFavoriteMovies.get(movieToInsert)).intValue() + movieToInsert.getTitle() + movieToInsert.getYear(), movieToInsert);
+		}
+		sortedDescendingMoviesMap.putAll(sortedMoviesMap);
+		moviesRented = new ArrayList<Movie>(sortedDescendingMoviesMap.values());
+		return moviesRented;
 	}
 	
 	public String toString() {

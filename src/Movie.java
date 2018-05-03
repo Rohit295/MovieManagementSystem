@@ -23,6 +23,19 @@ public class Movie {
 		// format: <year>\t<title>\t<genre name>\t$ <price
 		return year + "\t" + title + "\t" + genre.getName() + "\t" + "$ " + price;
 	}
+	
+	@Override
+	/**
+	 * Override the equals method to check that Title and Year are the same when checking if a movie is equal to it
+	 */
+	public boolean equals(Object obj) {
+		Movie movieToCheck = (Movie)obj;
+		if (movieToCheck.getTitle().equals(title) && movieToCheck.getYear() == year) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 
 	public String getTitle() {
 		return title;
