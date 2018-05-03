@@ -110,7 +110,7 @@ public class Kiosk {
 		System.out.println(" ");
 		Scanner inputScanner = new Scanner(System.in);
 
-		System.out.print("Enter a valid customer ID: ");
+		System.out.print("Enter a customer ID: ");
 		
 		// Ensure a valid customer ID is entered and then top up
 		int customerIDToTopUp = inputScanner.nextInt();
@@ -144,7 +144,7 @@ public class Kiosk {
 		System.out.println(" ");
 		Scanner inputScanner = new Scanner(System.in);
 
-		System.out.print("Enter a valid customer ID: ");
+		System.out.print("Enter a customer ID: ");
 		
 		// Ensure a valid customer ID is entered and then top up
 		int customerIDToTopUp = inputScanner.nextInt();
@@ -176,7 +176,7 @@ public class Kiosk {
 		System.out.println(" ");
 		Scanner inputScanner = new Scanner(System.in);
 
-		System.out.print("Enter a valid customer ID: ");
+		System.out.print("Enter a customer ID: ");
 		
 		// Ensure a valid customer ID is entered and then list person's favorites
 		int customerIDToListFavorites = inputScanner.nextInt();
@@ -336,7 +336,7 @@ public class Kiosk {
 		Scanner inputScanner = new Scanner(System.in);
 
 		// try to remove a customer with the ID entered. If ID is not present, call that out
-		System.out.print("Enter a valid customer ID: ");		
+		System.out.print("Enter a customer ID: ");		
 		int idCustomerToRemove = inputScanner.nextInt();
 		inputScanner.nextLine(); // do this to skip the enter button press
 		while (!isCustomerIDInUse(idCustomerToRemove)) {
@@ -639,7 +639,7 @@ public class Kiosk {
 		System.out.println(" ");
 
 		// Find a valid customer ID, to rent a movie for
-		System.out.print("Enter a valid customer ID: ");		
+		System.out.print("Enter a customer ID: ");		
 		int idCustomerWhoWantsToRent = inputScanner.nextInt();
 		inputScanner.nextLine(); // do this to skip the enter button press
 		while (!isCustomerIDInUse(idCustomerWhoWantsToRent)) {
@@ -683,7 +683,7 @@ public class Kiosk {
 		System.out.println(" ");
 
 		// Find a valid customer ID, to return a movie for
-		System.out.print("Enter a valid customer ID: ");		
+		System.out.print("Enter a customer ID: ");		
 		int idCustomerWhoWantsToReturn = inputScanner.nextInt();
 		inputScanner.nextLine(); // do this to skip the enter button press
 		while (!isCustomerIDInUse(idCustomerWhoWantsToReturn)) {
