@@ -410,22 +410,17 @@ public class Kiosk {
 		String titleOfMovieToRemove = inputScanner.nextLine();
 		System.out.print("Enter the year: ");
 		int yearOfMovieToRemove = Integer.parseInt(inputScanner.nextLine());
-		System.out.print("Enter price of movie: ");
-		int priceOfMovieToRemove = Integer.parseInt(inputScanner.nextLine());
-		System.out.print("Enter genre of movie: ");
-		String genreOfMovieToRemove = inputScanner.nextLine(); 
-		
 		
 		Movie movieToRemove = catalogue.findMovie(titleOfMovieToRemove, yearOfMovieToRemove);
 		if (movieToRemove == null) {
-			System.out.println( yearOfMovieToRemove + " " + titleOfMovieToRemove + " " + genreOfMovieToRemove + "$" + priceOfMovieToRemove + " removed from catalogue.");
+			System.out.println(movieToRemove.toString() + " is not in catalogue.");
 		} else if (movieToRemove.getStatus() == Movie.MOVIE_RENTED_OUT) {
-			System.out.println( yearOfMovieToRemove + " " + titleOfMovieToRemove + " " + genreOfMovieToRemove + "$" + priceOfMovieToRemove + " is currently rented out.");			
+			System.out.println(movieToRemove.toString() + " is currently rented out.");			
 		} else { 
 			catalogue.removeMovieFromCatalogue(movieToRemove);
 			System.out.println(movieToRemove.toString() + " removed from catalogue.");			
-			System.out.println("");
 		}
+		System.out.println("");
 		return "KioskAdminView";
 	}
 	
