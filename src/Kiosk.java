@@ -413,7 +413,7 @@ public class Kiosk {
 		
 		Movie movieToRemove = catalogue.findMovie(titleOfMovieToRemove, yearOfMovieToRemove);
 		if (movieToRemove == null) {
-			System.out.println(movieToRemove + " is not in catalogue.");
+			System.out.println("year " + yearOfMovieToRemove + " title " + titleOfMovieToRemove + " is not in catalogue.");
 		} else if (movieToRemove.getStatus() == Movie.MOVIE_RENTED_OUT) {
 			System.out.println(movieToRemove + " is currently rented out.");			
 		} else { 
