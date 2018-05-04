@@ -102,18 +102,18 @@ public class Kiosk {
 		System.out.println("4. List all movies.");
 		System.out.println("5. Add a movie to the catalogue.");
 		System.out.println("6. Remove a movie from the catalogue.");
-		System.out.println("R. Return to previous menu.");
+		System.out.println("R. Return to the previous menu.");
 		System.out.print("Enter a choice: ");
 	}
 
 	private String processCustomerRecord() {
-		System.out.println(" ");
+		System.out.println("");
 		Scanner inputScanner = new Scanner(System.in);
 
-		System.out.print("Enter a valid customer ID: ");
+		System.out.print("Enter a customer ID: ");
 		
 		// Ensure a valid customer ID is entered and then top up
-		int customerIDToTopUp = inputScanner.nextInt();
+		int customerIDToProcessRecord = inputScanner.nextInt();
 		inputScanner.nextLine(); // do this to skip the enter button press
 		
 		/**
@@ -125,12 +125,15 @@ public class Kiosk {
 		}
 		**/
 
-		if (!isCustomerIDInUse(customerIDToTopUp )) {
-			System.out.print("That customer does not exist. ");
-			return "KioskMasterView";			
+		if (!isCustomerIDInUse(customerIDToProcessRecord )) {
+			System.out.println("That customer does not exist. ");
+			
+			System.out.println("");
+			return "KioskMasterView";	
+			
 		} 
 		
-		Customer customerToTopUp = findCustomer(customerIDToTopUp);
+		Customer customerToTopUp = findCustomer(customerIDToProcessRecord);
 		System.out.println(customerToTopUp.toString());
 		
 		return "KioskMasterView";
@@ -144,7 +147,7 @@ public class Kiosk {
 		System.out.println(" ");
 		Scanner inputScanner = new Scanner(System.in);
 
-		System.out.print("Enter a valid customer ID: ");
+		System.out.print("Enter a customer ID: ");
 		
 		// Ensure a valid customer ID is entered and then top up
 		int customerIDToTopUp = inputScanner.nextInt();
@@ -152,7 +155,8 @@ public class Kiosk {
 
 		// if the customer ID is not already created, exit this flow
 		if (!isCustomerIDInUse(customerIDToTopUp )) {
-			System.out.print("That customer does not exist. ");
+			System.out.println("That customer does not exist. ");
+			System.out.println("");
 			return "KioskMasterView";			
 		}
 		
@@ -168,6 +172,7 @@ public class Kiosk {
 		System.out.println(customerToTopUp.getName() +"'s balance was: " + "$" + customerToTopUp.getBalance());
 		customerToTopUp.topUpBalance(amountToTopUp);
 		System.out.println(customerToTopUp.getName() +"'s current balance is: " + "$" + customerToTopUp.getBalance());
+		System.out.println("");
 
 		return "KioskMasterView";
 	}
@@ -176,7 +181,7 @@ public class Kiosk {
 		System.out.println(" ");
 		Scanner inputScanner = new Scanner(System.in);
 
-		System.out.print("Enter a valid customer ID: ");
+		System.out.print("Enter a customer ID: ");
 		
 		// Ensure a valid customer ID is entered and then list person's favorites
 		int customerIDToListFavorites = inputScanner.nextInt();
@@ -194,6 +199,7 @@ public class Kiosk {
 		// check to see that there are favorite movies. If yes, list them, else error message and exit
 		if (customerFavoriteMovies.size() == 0) {
 			System.out.print("This customer does not have favorite movies yet. ");
+			System.out.println("");
 			return "KioskMasterView";						
 		}
 
@@ -267,7 +273,8 @@ public class Kiosk {
 		// AMRI: understand why I am printing out one customer here and looping for all the others
 		System.out.println(customerIterator.next().toString());
 		while (customerIterator.hasNext()) {
-			System.out.println(customerIterator.next().toString());			
+			System.out.println(customerIterator.next().toString());	
+			System.out.println("");
 		}
 
 		return "KioskAdminView";
@@ -299,6 +306,7 @@ public class Kiosk {
 		Customer newCustomer = new Customer(newCustomerID, newCustomerName, newCustomerBalance);
 		this.customers.add(newCustomer);
 		System.out.println("Customer added.");
+		System.out.println("");
 
 		return "KioskAdminView";
 	}
@@ -336,7 +344,7 @@ public class Kiosk {
 		Scanner inputScanner = new Scanner(System.in);
 
 		// try to remove a customer with the ID entered. If ID is not present, call that out
-		System.out.print("Enter a valid customer ID: ");		
+		System.out.print("Enter a customer ID: ");		
 		int idCustomerToRemove = inputScanner.nextInt();
 		inputScanner.nextLine(); // do this to skip the enter button press
 		while (!isCustomerIDInUse(idCustomerToRemove)) {
@@ -350,7 +358,8 @@ public class Kiosk {
 
 		// ensure the customer does not have a movie rented out currently
 		if (customerToRemove.hasCurrentlyRented()) {
-			System.out.print("Customer has currently rented movie and cannot be removed.");			
+			System.out.print("Customer has currently rented movie and cannot be removed.");		
+			System.out.println("");
 			return "KioskAdminView";
 		}
 		
@@ -379,7 +388,7 @@ public class Kiosk {
 		System.out.print("Enter the price: ");
 		String newMoviePrice = inputScanner.nextLine();
 
-		Movie newMovie= new Movie(newMovieTitle, Integer.parseInt(newMovieYear), Integer.parseInt(newMoviePrice), new Genre(newMovieGenre));
+		Movie newMovie= new Movie(newMovieTitle, Integer.parseInt(newMovieYear), new Genre(newMovieGenre), Integer.parseInt(newMoviePrice));
 		catalogue.addMovieToCatalogue(newMovie);
 
 		System.out.println("Added " + newMovieTitle + " to catalogue.");
@@ -401,15 +410,21 @@ public class Kiosk {
 		String titleOfMovieToRemove = inputScanner.nextLine();
 		System.out.print("Enter the year: ");
 		int yearOfMovieToRemove = Integer.parseInt(inputScanner.nextLine());
+		System.out.print("Enter price of movie: ");
+		int priceOfMovieToRemove = Integer.parseInt(inputScanner.nextLine());
+		System.out.print("Enter genre of movie: ");
+		String genreOfMovieToRemove = inputScanner.nextLine(); 
+		
 		
 		Movie movieToRemove = catalogue.findMovie(titleOfMovieToRemove, yearOfMovieToRemove);
 		if (movieToRemove == null) {
-			System.out.println("Movie " + titleOfMovieToRemove + ", year " + yearOfMovieToRemove + " is not in catalogue.");
+			System.out.println( yearOfMovieToRemove + " " + titleOfMovieToRemove + " " + genreOfMovieToRemove + "$" + priceOfMovieToRemove + " removed from catalogue.");
 		} else if (movieToRemove.getStatus() == Movie.MOVIE_RENTED_OUT) {
-			System.out.println("Movie " + titleOfMovieToRemove + ", year " + yearOfMovieToRemove + " is currently rented out.");			
+			System.out.println( yearOfMovieToRemove + " " + titleOfMovieToRemove + " " + genreOfMovieToRemove + "$" + priceOfMovieToRemove + " is currently rented out.");			
 		} else { 
 			catalogue.removeMovieFromCatalogue(movieToRemove);
 			System.out.println(movieToRemove.toString() + " removed from catalogue.");			
+			System.out.println("");
 		}
 		return "KioskAdminView";
 	}
@@ -435,7 +450,7 @@ public class Kiosk {
 		System.out.println("5. Display all movies by year.");
 		System.out.println("6. Rent a movie.");
 		System.out.println("7. Return a movie.");
-		System.out.println("R. Return to the previous menu.");
+		System.out.println("R. Return to previous menu.");
 		System.out.print("Enter a choice: ");
 	}
 
@@ -639,7 +654,7 @@ public class Kiosk {
 		System.out.println(" ");
 
 		// Find a valid customer ID, to rent a movie for
-		System.out.print("Enter a valid customer ID: ");		
+		System.out.print("Enter a customer ID: ");		
 		int idCustomerWhoWantsToRent = inputScanner.nextInt();
 		inputScanner.nextLine(); // do this to skip the enter button press
 		while (!isCustomerIDInUse(idCustomerWhoWantsToRent)) {
@@ -683,7 +698,7 @@ public class Kiosk {
 		System.out.println(" ");
 
 		// Find a valid customer ID, to return a movie for
-		System.out.print("Enter a valid customer ID: ");		
+		System.out.print("Enter a customer ID: ");		
 		int idCustomerWhoWantsToReturn = inputScanner.nextInt();
 		inputScanner.nextLine(); // do this to skip the enter button press
 		while (!isCustomerIDInUse(idCustomerWhoWantsToReturn)) {
