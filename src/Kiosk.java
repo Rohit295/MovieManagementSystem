@@ -134,8 +134,9 @@ public class Kiosk {
 		} 
 		
 		Customer customerToTopUp = findCustomer(customerIDToProcessRecord);
-		System.out.println(customerToTopUp.toString());
+		System.out.println(customerToTopUp);
 		
+		System.out.println("");
 		return "KioskMasterView";
 	}
 
@@ -167,13 +168,13 @@ public class Kiosk {
 		// AMRI: transaction is so simple, that I put out the confirmation before doing it. If it was more complicated,
 		// I would print a confirmation only after finishing
 		Customer customerToTopUp = findCustomer(customerIDToTopUp);
-		System.out.println(" ");
+		System.out.println("");
 		System.out.println("Transaction complete."); 
 		System.out.println(customerToTopUp.getName() +"'s balance was: " + "$" + customerToTopUp.getBalance());
 		customerToTopUp.topUpBalance(amountToTopUp);
 		System.out.println(customerToTopUp.getName() +"'s current balance is: " + "$" + customerToTopUp.getBalance());
-		System.out.println("");
 
+		System.out.println("");
 		return "KioskMasterView";
 	}
 
@@ -190,6 +191,7 @@ public class Kiosk {
 		// if the customer ID is not already created, exit this flow
 		if (!isCustomerIDInUse(customerIDToListFavorites )) {
 			System.out.print("That customer does not exist. ");
+			System.out.println("");
 			return "KioskMasterView";			
 		}
 
@@ -213,6 +215,7 @@ public class Kiosk {
 			}
 		}
 		
+		System.out.println("");
 		return "KioskMasterView";
 	}
 
@@ -229,6 +232,7 @@ public class Kiosk {
 		// TODO - handle entry of non integer input
 		if (choiceMade.equals("R")) {
 			nextView = "KioskMasterView";
+			System.out.println("");
 			return nextView;
 		}
 
@@ -262,21 +266,22 @@ public class Kiosk {
 	}
 
 	private String processAdminListAllCustomers() {
-		System.out.println(" ");
+		System.out.println("");
 		Iterator<Customer> customerIterator = this.customers.listIterator();
 		if (!customerIterator.hasNext()) {
 			System.out.println("The Kiosk has no customers.");			
-			System.out.println(" ");
+			System.out.println("");
 			return "KioskAdminView";
 		}
 
 		// AMRI: understand why I am printing out one customer here and looping for all the others
-		System.out.println(customerIterator.next().toString());
+		System.out.println("The Kiosk has the following customers.");			
+		System.out.println(customerIterator.next());
 		while (customerIterator.hasNext()) {
-			System.out.println(customerIterator.next().toString());	
-			System.out.println("");
+			System.out.println(customerIterator.next());	
 		}
 
+		System.out.println("");
 		return "KioskAdminView";
 	}
 
@@ -306,8 +311,8 @@ public class Kiosk {
 		Customer newCustomer = new Customer(newCustomerID, newCustomerName, newCustomerBalance);
 		this.customers.add(newCustomer);
 		System.out.println("Customer added.");
-		System.out.println("");
 
+		System.out.println("");
 		return "KioskAdminView";
 	}
 	
@@ -365,6 +370,7 @@ public class Kiosk {
 		
 		customers.remove(customerToRemove);
 		System.out.println("Removed " + customerToRemove.getName() + " from Kiosk.");			
+		System.out.println("");
 		return "KioskAdminView";
 	}
 		
@@ -392,6 +398,7 @@ public class Kiosk {
 		catalogue.addMovieToCatalogue(newMovie);
 
 		System.out.println("Added " + newMovieTitle + " to catalogue.");
+		System.out.println("");
 		return "KioskAdminView";
 	}
 	
@@ -413,8 +420,8 @@ public class Kiosk {
 		
 		Movie movieToRemove = catalogue.findMovie(titleOfMovieToRemove, yearOfMovieToRemove);
 		if (movieToRemove == null) {
-			System.out.println("year " + yearOfMovieToRemove + " title " + titleOfMovieToRemove + " is not in catalogue.");
-		} else if (movieToRemove.getStatus() == Movie.MOVIE_RENTED_OUT) {
+			System.out.println("\t" + yearOfMovieToRemove + "\t" + titleOfMovieToRemove + " is not in catalogue.");
+		} else if (!catalogue.isMovieAvailable(movieToRemove)) {
 			System.out.println(movieToRemove + " is currently rented out.");			
 		} else { 
 			catalogue.removeMovieFromCatalogue(movieToRemove);
@@ -496,7 +503,7 @@ public class Kiosk {
 	 * @return
 	 */
 	private String listAllMovies() {
-		System.out.println(" ");
+		System.out.println("");
 
 		// List everything on the Catalogue and everything rented out
 		Iterator<Movie> moviesRentedIterator = this.catalogue.getMoviesRented().iterator();
@@ -505,15 +512,17 @@ public class Kiosk {
 			System.out.println(" ");
 			System.out.println("There are no movies in the kiosk.");
 		} else {
-			System.out.println("The catalogue has the following movies: ");
+			System.out.println("The Kiosk has the following movies: ");
 			while (moviesAvailableIterator.hasNext()) {
-				System.out.println(moviesAvailableIterator.next().toString());
+				System.out.println(moviesAvailableIterator.next());
 			}			
 			while (moviesRentedIterator.hasNext()) {
-				System.out.println(moviesRentedIterator.next().toString());
+				System.out.println(moviesRentedIterator.next());
 			}			
 				
 		}
+
+		System.out.println("");
 		return "KioskCatalogueView";
 	}
 
@@ -522,35 +531,37 @@ public class Kiosk {
 	 * @return
 	 */
 	private String listAllAvailableMovies() {
-		System.out.println(" ");
+		System.out.println("");
 
 		Iterator<Movie> moviesAvailableIterator = this.catalogue.getMoviesAvailable().iterator();
 		if (!moviesAvailableIterator.hasNext()) {
 			System.out.println("There are no movies available in the Kiosk right now.");
 		} else {
+			System.out.println("The Kiosk has the following movies available: ");
 			while (moviesAvailableIterator.hasNext()) {
-				System.out.println("\t" + moviesAvailableIterator.next().toString());
+				System.out.println(moviesAvailableIterator.next());
 			}			
 		}
 		
+		System.out.println("");
 		return "KioskCatalogueView";
 	}
 
 	private String listAllGenres() {
-		System.out.println(" ");
+		System.out.println("");
 
 		// List all Genres that we know about
 		Iterator<Genre> genresIterator = this.catalogue.getGenres().iterator();
 		if (!genresIterator.hasNext()) {
 			System.out.println("There are no movies in the Kiosk.");
 		} else {
-			System.out.println("The catalogue has movies in the following genres: ");
+			System.out.println("The Kiosk has movies in the following genres: ");
 			while (genresIterator.hasNext()) {
-				System.out.println("\t" + genresIterator.next().toString());
-			}			
-				
+				System.out.println(genresIterator.next());
+			}							
 		}
 		
+		System.out.println("");
 		return "KioskCatalogueView";
 	}
 
@@ -567,35 +578,36 @@ public class Kiosk {
 		Iterator<Movie> moviesRentedIterator = this.catalogue.getMoviesRented().iterator();
 
 		if (!moviesAvailableIterator.hasNext() && !moviesRentedIterator.hasNext()) {
-			System.out.println("This Kiosk has no movies right now.");
+			System.out.println("The Kiosk has no movies right now.");
 		} else {
 			// we need to go through movies in Catalogue whether available OR out on loan and see if they belong to this genre
 			while (moviesAvailableIterator.hasNext()) {
 				Movie movieToCheck = moviesAvailableIterator.next(); 
-				if (movieToCheck.getGenre().toString().equals(genreName)) {
+				if (movieToCheck.getGenre().getName().equals(genreName)) {
 					if (!isMovieMatchingGenre) {
 						isMovieMatchingGenre = true;
-						System.out.println("This Kiosk has the following movies of this genre available: ");
+						System.out.println("The Kiosk has the following movies of this genre available: ");
 					}
-					System.out.println(movieToCheck.toString());
+					System.out.println(movieToCheck);
 				}
 			}			
 			while (moviesRentedIterator.hasNext()) {
 				Movie movieToCheck = moviesRentedIterator.next(); 
-				if (movieToCheck.getGenre().toString().equals(genreName)) {
+				if (movieToCheck.getGenre().getName().equals(genreName)) {
 					if (!isMovieMatchingGenre) {
 						isMovieMatchingGenre = true;
 						System.out.println("The kiosk has the following movies of this genre available: ");
 					}
-					System.out.println(movieToCheck.toString());
+					System.out.println(movieToCheck);
 				}
 			}			
-		}
 
-		if (!isMovieMatchingGenre) {
-			System.out.println("There are no movies in this genre right now.");
-		} 			
+			if (!isMovieMatchingGenre) {
+				System.out.println("There are no movies in this genre right now.");
+			} 			
+		}
 		
+		System.out.println("");
 		return "KioskCatalogueView";
 	}
 	
@@ -622,7 +634,7 @@ public class Kiosk {
 						isMovieMatchingYear = true;
 						System.out.println("This Kiosk has the following movies of this year available: ");
 					}
-					System.out.println(movieToCheck.toString());
+					System.out.println(movieToCheck);
 				}
 			}			
 			while (moviesRentedIterator.hasNext()) {
@@ -632,15 +644,16 @@ public class Kiosk {
 						isMovieMatchingYear = true;
 						System.out.println("The kiosk has the following movies of this year available: ");
 					}
-					System.out.println(movieToCheck.toString());
+					System.out.println(movieToCheck);
 				}
 			}			
+
+			if (!isMovieMatchingYear) {
+				System.out.println("There are no movies of this year right now.");
+			} 						
 		}
 
-		if (!isMovieMatchingYear) {
-			System.out.println("There are no movies of this year right now.");
-		} 			
-		
+		System.out.println("");
 		return "KioskCatalogueView";
 	}
 	
@@ -670,21 +683,22 @@ public class Kiosk {
 		Movie movieToRent = catalogue.findMovie(nameMovieToRent, yearMovieToRent);
 		if (movieToRent == null) {
 			System.out.println("This movie is not in the Catalogue.");						
+			System.out.println("");
 			return "KioskCatalogueView";
 		} 
 		
 		int customerRentStatus = customerRentingMovie.canRentThisMovie(movieToRent);
-		if (movieToRent.getStatus() == Movie.MOVIE_RENTED_OUT) {
+		if (!catalogue.isMovieAvailable(movieToRent)) {
 			System.out.println("This movie is already rented out.");						
 		} else if (customerRentStatus == Customer.CUSTOMER_OUT_OF_BALANCE) {
 			System.out.println("You don't have sufficient funds to rent this movie.");			
 		} else if (customerRentStatus == Customer.CUSTOMER_CAN_RENT) {
 			catalogue.rentAMovie(movieToRent);
 			customerRentingMovie.rentAMovie(movieToRent);
-			movieToRent.rentMovie();
 			System.out.println("Movie rented.");
 		}
 		
+		System.out.println("");
 		return "KioskCatalogueView";
 	}
 	
@@ -710,21 +724,22 @@ public class Kiosk {
 		Movie movieToReturn = catalogue.findMovie(nameMovieToRent, 0);
 		if (movieToReturn == null) {
 			System.out.println("This movie is not in the Catalogue.");						
+			System.out.println("");
 			return "KioskCatalogueView";
 		} 
 		
 		
-		if (movieToReturn.getStatus() != Movie.MOVIE_RENTED_OUT) {
+		if (catalogue.isMovieAvailable(movieToReturn)) {
 			System.out.println("This movie is not rented out.");								
 		} else if (!customerReturningMovie.hasRentedMovie(movieToReturn)) {
 			System.out.println("This movie is not rented out by this customer.");											
 		} else {
 			catalogue.returnAMovie(movieToReturn);
 			customerReturningMovie.returnAMovie(movieToReturn);
-			movieToReturn.returnMovie();
 			System.out.println("Movie returned.");
 		}
 
+		System.out.println("");
 		return "KioskCatalogueView";
 	}
 }

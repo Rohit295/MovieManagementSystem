@@ -4,7 +4,6 @@ public class Movie {
 	private int year;
 	private int price;
 	private Genre genre;
-	private int status;
 	
 	// Constants describing movie's delete status
 	public static final int MOVIE_AVAILABLE = 1;	
@@ -15,7 +14,6 @@ public class Movie {
 		this.year = year;
 		this.price = price;
 		this.genre = genre;
-		this.status = MOVIE_AVAILABLE;
 	}
 	
 	@Override
@@ -67,17 +65,5 @@ public class Movie {
 
 	public void setGenre(Genre genre) {
 		this.genre = genre;
-	}
-
-	public int getStatus() {
-		return status;
-	}
-	
-	public void rentMovie() {
-		status = MOVIE_RENTED_OUT;
-	}
-
-	public void returnMovie() {
-		status = MOVIE_AVAILABLE;
 	}
 }

@@ -60,8 +60,24 @@ public class Catalogue {
 		return null;
 	}
 
+	/**
+	 * Check to see if movie passed in, is in the Available List
+	 * @param movieToCheck
+	 * @return
+	 */
+	public boolean isMovieAvailable(Movie movieToCheck) {
+		Iterator<Movie> availableMoviesIterator = this.moviesAvailable.iterator();
+		while (availableMoviesIterator.hasNext()) {
+			Movie oneMovie = availableMoviesIterator.next();
+			if (oneMovie.getTitle().equals(movieToCheck.getTitle()) && (oneMovie.getYear() ==  movieToCheck.getYear())) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	public Movie removeMovieFromCatalogue(Movie movieToRemove) {
-		if (movieToRemove.getStatus() == Movie.MOVIE_AVAILABLE) {
+		if (isMovieAvailable(movieToRemove)) {
 			moviesAvailable.remove(movieToRemove);
 
 			// Adjust the genre information Check to see if there are more movies, with the same genre of the movie being removed.
