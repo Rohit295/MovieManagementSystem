@@ -409,7 +409,7 @@ public class Kiosk {
 			System.out.println("Movie " + titleOfMovieToRemove + ", year " + yearOfMovieToRemove + " is currently rented out.");			
 		} else { 
 			catalogue.removeMovieFromCatalogue(movieToRemove);
-			System.out.println("Removed " + titleOfMovieToRemove + " from catalogue.");			
+			System.out.println(movieToRemove.toString() + " removed from catalogue.");			
 		}
 		return "KioskAdminView";
 	}
