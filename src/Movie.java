@@ -10,7 +10,7 @@ public class Movie {
 	public static final int MOVIE_AVAILABLE = 1;	
 	public static final int MOVIE_RENTED_OUT = 2;	
 	
-	public Movie(String title, int year, int price, Genre genre) {
+	public Movie(String title, int year, Genre genre, int price) {
 		this.title = title;
 		this.year = year;
 		this.price = price;
