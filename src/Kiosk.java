@@ -36,7 +36,7 @@ public class Kiosk {
 		catalogue.addMovieToCatalogue(newMovie1);
 		Movie newMovie2 = new Movie("Titanic", 1997, new Genre("Drama"), 4);
 		catalogue.addMovieToCatalogue(newMovie2);
-		Movie newMovie3 = new Movie("The Silence of Lambs", 1991, new Genre("Crime"), 3);
+		Movie newMovie3 = new Movie("The Silence of the Lambs", 1991, new Genre("Crime"), 3);
 		catalogue.addMovieToCatalogue(newMovie3);
 		Movie newMovie4 = new Movie("Jurassic Park", 1993, new Genre("SciFi"), 4);
 		catalogue.addMovieToCatalogue(newMovie4);
@@ -399,6 +399,7 @@ public class Kiosk {
 	 * @return
 	 */
 	private String processAdminAddMovie() {
+		System.out.println("");
 		System.out.println("Adding a new movie.");
 		Scanner inputScanner = new Scanner(System.in);
 
@@ -411,10 +412,17 @@ public class Kiosk {
 		System.out.print("Enter the genre: ");
 		String newMovieGenre = inputScanner.nextLine();
 
-		System.out.print("Enter the price: ");
+		System.out.print("Enter price: ");
 		String newMoviePrice = inputScanner.nextLine();
 
 		Movie newMovie= new Movie(newMovieTitle, Integer.parseInt(newMovieYear), new Genre(newMovieGenre), Integer.parseInt(newMoviePrice));
+		// Check to see if Movie is already in catalogue and only add if not already present
+		if (catalogue.findMovie(newMovie.getTitle(), newMovie.getYear()) != null) {
+			System.out.println("The movie is already in the catalogue.");
+			System.out.println("");
+			return "KioskAdminView";
+		}
+		
 		catalogue.addMovieToCatalogue(newMovie);
 
 		System.out.println("Added " + newMovieTitle + " to catalogue.");

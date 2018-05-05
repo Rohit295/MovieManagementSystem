@@ -19,7 +19,7 @@ public class Movie {
 	@Override
 	public String toString() {
 		// format: <year>\t<title>\t<genre name>\t$ <price
-		return year + "\t" + title + "\t" + genre.getName() + "\t" + "$ " + price;
+		return year + "\t" + title + "\t" + genre.getName() + "\t" + "$" + price;
 	}
 	
 	@Override

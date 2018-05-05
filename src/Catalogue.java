@@ -21,15 +21,13 @@ public class Catalogue {
 	 * @param Movie
 	 * @return
 	 */
-	public int addMovieToCatalogue(Movie movie) {
-		// todo: should I check if the movie is already added and prevent duplicates
-		
-		this.moviesAvailable.add(movie);
+	public int addMovieToCatalogue(Movie movieToAdd) {
+		this.moviesAvailable.add(movieToAdd);
 		
 		// when adding the movie, also add the genre to the Catalogue. Ensure this is unique
 		// ref: https://stackoverflow.com/questions/2642589/how-does-a-arraylists-contains-method-evaluate-objects
-		if (!genres.contains(movie.getGenre())) {
-			genres.add(movie.getGenre());
+		if (!genres.contains(movieToAdd.getGenre())) {
+			genres.add(movieToAdd.getGenre());
 		}
 		
 		return moviesAvailable.size();
