@@ -688,7 +688,7 @@ public class Kiosk {
 		System.out.println(" ");
 
 		// Find a valid customer ID, to rent a movie for
-		System.out.print("Enter a customer ID: ");		
+		System.out.print("Enter a valid customer ID: ");		
 		int idCustomerWhoWantsToRent = inputScanner.nextInt();
 		inputScanner.nextLine(); // do this to skip the enter button press
 		while (!isCustomerIDInUse(idCustomerWhoWantsToRent)) {
@@ -702,11 +702,11 @@ public class Kiosk {
 		// AMRI: verify that you can change the input to also take a year. If NOT, search for movie without expecting year to be passed
 		System.out.print("Enter the title of the movie you wish to rent: ");
 		String nameMovieToRent = inputScanner.nextLine();
-		System.out.print("Enter the year of the movie you wish to rent: ");
-		int yearMovieToRent = inputScanner.nextInt();
-		inputScanner.nextLine(); // do this to skip the enter button press
+		//System.out.print("Enter the year of the movie you wish to rent: ");
+		//int yearMovieToRent = inputScanner.nextInt();
+		//inputScanner.nextLine(); // do this to skip the enter button press
 
-		Movie movieToRent = catalogue.findMovie(nameMovieToRent, yearMovieToRent);
+		Movie movieToRent = catalogue.findMovie(nameMovieToRent, 0);
 		if (movieToRent == null) {
 			System.out.println("This movie is not in the Catalogue.");						
 			System.out.println("");
