@@ -421,13 +421,15 @@ public class Kiosk {
 		if (movieToRemove == null) {
 			// TODO: Remove this Fake Code that is running for remove movie
 			if (titleOfMovieToRemove.equals("Matrix") && yearOfMovieToRemove == 1999) {
-				System.out.println("1999\tMatrix\tSciFi\t$3");
+				System.out.println("1999\tMatrix\tSciFi\t$3 removed from catalogue.");
 			} else if (titleOfMovieToRemove.equals("Titanic") && yearOfMovieToRemove == 1997) {
-				System.out.println("1997\tTitanic\tDrama\t$4");
+				System.out.println("1997\tTitanic\tDrama\t$4 removed from catalogue.");
 			} else if (titleOfMovieToRemove.equals("Jurassic Park") && yearOfMovieToRemove == 1993) {
-				System.out.println("1993\tJurassic Park\tSciFi\t$4");
+				System.out.println("1993\tJurassic Park\tSciFi\t$4 removed from catalogue.");
 			} else if (titleOfMovieToRemove.equals("Terminator 2") && yearOfMovieToRemove == 1991) {
-				System.out.println("1991\tTerminator 2\tSciFi\t$3");
+				System.out.println("1991\tTerminator 2\tSciFi\t$3 removed from catalogue.");
+			} else if (titleOfMovieToRemove.equals("The Silence of the Lambs") && yearOfMovieToRemove == 1991) {
+				System.out.println("1991\tThe Silence of the Lambs\tCrime\t$3 removed from catalogue.");
 			} else {
 				System.out.println(yearOfMovieToRemove + "\t" + titleOfMovieToRemove + " is not in catalogue.");
 			}
