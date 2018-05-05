@@ -389,7 +389,7 @@ public class Kiosk {
 		}
 		
 		customers.remove(customerToRemove);
-		System.out.println("Removed " + customerToRemove.getName() + " from Kiosk.");			
+		System.out.println("Customer removed.");			
 		System.out.println("");
 		return "KioskAdminView";
 	}
@@ -715,7 +715,7 @@ public class Kiosk {
 		
 		int customerRentStatus = customerRentingMovie.canRentThisMovie(movieToRent);
 		if (!catalogue.isMovieAvailable(movieToRent)) {
-			System.out.println("This movie is already rented out.");						
+			System.out.println("That movie is not available or doesn't exist.");						
 		} else if (customerRentStatus == Customer.CUSTOMER_OUT_OF_BALANCE) {
 			System.out.println("You don't have sufficient funds to rent this movie.");			
 		} else if (customerRentStatus == Customer.CUSTOMER_CAN_RENT) {
@@ -746,7 +746,7 @@ public class Kiosk {
 
 		// List out all the movies rented by this customer
 		System.out.println(customerReturningMovie.getName() + " has the following movies:");
-		System.out.println("Movies currently rented by " + customerReturningMovie.getName());
+		System.out.println("Movies currently rented by " + customerReturningMovie.getName() + ":");
 		Iterator<Movie> movieIterator = customerReturningMovie.getCurrentlyRented().iterator();
 		while (movieIterator.hasNext()) {
 			System.out.println(movieIterator.next());
@@ -771,7 +771,7 @@ public class Kiosk {
 		} else {
 			catalogue.returnAMovie(movieToReturn);
 			customerReturningMovie.returnAMovie(movieToReturn);
-			System.out.println(movieToReturn.getTitle() + "has been returned.");
+			System.out.println(movieToReturn.getTitle() + " has been returned.");
 		}
 
 		System.out.println("");
