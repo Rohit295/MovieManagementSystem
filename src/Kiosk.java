@@ -520,11 +520,10 @@ public class Kiosk {
 		// List everything on the Catalogue and everything rented out
 		Iterator<Movie> moviesRentedIterator = this.catalogue.getMoviesRented().iterator();
 		Iterator<Movie> moviesAvailableIterator = this.catalogue.getMoviesAvailable().iterator();
+		System.out.println("The Kiosk has the following movies: ");
 		if (!moviesRentedIterator.hasNext() && !moviesAvailableIterator.hasNext()) {
 			System.out.println(" ");
-			System.out.println("There are no movies in the kiosk.");
 		} else {
-			System.out.println("The Kiosk has the following movies: ");
 			while (moviesAvailableIterator.hasNext()) {
 				System.out.println(moviesAvailableIterator.next());
 			}			
