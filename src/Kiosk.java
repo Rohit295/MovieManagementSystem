@@ -22,6 +22,27 @@ public class Kiosk {
 	 * AMRI: Study 5 Example to understand the 'use' pattern
 	 */
 	private void use() {
+		// Bootstrap the Kiosk with initial data
+		// First, I will  add 3 Test Customers
+		Customer newCustomer1 = new Customer(101, "Jamie", 10);
+		this.customers.add(newCustomer1);
+		Customer newCustomer2 = new Customer(102, "Luke", 10);
+		this.customers.add(newCustomer2);
+		Customer newCustomer3 = new Customer(103, "William", 1);
+		this.customers.add(newCustomer3);
+		
+		// Second, I will add 5 Test Movies
+		Movie newMovie1 = new Movie("Matrix", 1999, new Genre("SciFi"), 3);
+		catalogue.addMovieToCatalogue(newMovie1);
+		Movie newMovie2 = new Movie("Titanic", 1997, new Genre("Drama"), 4);
+		catalogue.addMovieToCatalogue(newMovie2);
+		Movie newMovie3 = new Movie("The Silence of Lambs", 1991, new Genre("Crime"), 3);
+		catalogue.addMovieToCatalogue(newMovie3);
+		Movie newMovie4 = new Movie("Jurassic Park", 1993, new Genre("SciFi"), 4);
+		catalogue.addMovieToCatalogue(newMovie4);
+		Movie newMovie5 = new Movie("Terminator 2", 1991, new Genre("SciFi"), 3);
+		catalogue.addMovieToCatalogue(newMovie5);
+		
 		runKioskMasterView();
 		runKioskActions("KioskMasterView");
 	}
@@ -419,20 +440,7 @@ public class Kiosk {
 		
 		Movie movieToRemove = catalogue.findMovie(titleOfMovieToRemove, yearOfMovieToRemove);
 		if (movieToRemove == null) {
-			// TODO: Remove this Fake Code that is running for remove movie
-			if (titleOfMovieToRemove.equals("Matrix") && yearOfMovieToRemove == 1999) {
-				System.out.println("1999\tMatrix\tSciFi\t$3 removed from catalogue.");
-			} else if (titleOfMovieToRemove.equals("Titanic") && yearOfMovieToRemove == 1997) {
-				System.out.println("1997\tTitanic\tDrama\t$4 removed from catalogue.");
-			} else if (titleOfMovieToRemove.equals("Jurassic Park") && yearOfMovieToRemove == 1993) {
-				System.out.println("1993\tJurassic Park\tSciFi\t$4 removed from catalogue.");
-			} else if (titleOfMovieToRemove.equals("Terminator 2") && yearOfMovieToRemove == 1991) {
-				System.out.println("1991\tTerminator 2\tSciFi\t$3 removed from catalogue.");
-			} else if (titleOfMovieToRemove.equals("The Silence of the Lambs") && yearOfMovieToRemove == 1991) {
-				System.out.println("1991\tThe Silence of the Lambs\tCrime\t$3 removed from catalogue.");
-			} else {
-				System.out.println(yearOfMovieToRemove + "\t" + titleOfMovieToRemove + " is not in catalogue.");
-			}
+			System.out.println(yearOfMovieToRemove + "\t" + titleOfMovieToRemove + " is not in catalogue.");
 		} else if (!catalogue.isMovieAvailable(movieToRemove)) {
 			System.out.println(movieToRemove + " is currently rented out.");			
 		} else { 
@@ -522,7 +530,7 @@ public class Kiosk {
 		Iterator<Movie> moviesAvailableIterator = this.catalogue.getMoviesAvailable().iterator();
 		System.out.println("The Kiosk has the following movies: ");
 		if (!moviesRentedIterator.hasNext() && !moviesAvailableIterator.hasNext()) {
-			System.out.println(" ");
+		//	System.out.println("");
 		} else {
 			while (moviesAvailableIterator.hasNext()) {
 				System.out.println(moviesAvailableIterator.next());
