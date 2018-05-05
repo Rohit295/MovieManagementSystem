@@ -373,7 +373,7 @@ public class Kiosk {
 		int idCustomerToRemove = inputScanner.nextInt();
 		inputScanner.nextLine(); // do this to skip the enter button press
 		if (!isCustomerIDInUse(idCustomerToRemove)) {
-			System.out.print("That customer does not exist.");
+			System.out.println("That customer does not exist.");
 			System.out.println("");
 			return "KioskAdminView";
 		}
@@ -447,7 +447,7 @@ public class Kiosk {
 		
 		Movie movieToRemove = catalogue.findMovie(titleOfMovieToRemove, yearOfMovieToRemove);
 		if (movieToRemove == null) {
-			System.out.println(yearOfMovieToRemove + "\t" + titleOfMovieToRemove + " is not in catalogue.");
+			System.out.println("No such movie found.");
 		} else if (!catalogue.isMovieAvailable(movieToRemove)) {
 			System.out.println(movieToRemove + " is currently rented out.");			
 		} else { 
@@ -562,7 +562,7 @@ public class Kiosk {
 		if (!moviesAvailableIterator.hasNext()) {
 			System.out.println("There are no movies available in the Kiosk right now.");
 		} else {
-			System.out.println("The Kiosk has the following movies available: ");
+			System.out.println("The following movies are available: ");
 			while (moviesAvailableIterator.hasNext()) {
 				System.out.println(moviesAvailableIterator.next());
 			}			
@@ -594,7 +594,7 @@ public class Kiosk {
 		Scanner inputScanner = new Scanner(System.in);
 
 		System.out.println("");
-		System.out.print("Enter the genre: ");
+		System.out.print("Enter a genre: ");
 		String genreName = inputScanner.nextLine();
 
 		boolean isMovieMatchingGenre = false;
@@ -611,7 +611,7 @@ public class Kiosk {
 				if (movieToCheck.getGenre().getName().equals(genreName)) {
 					if (!isMovieMatchingGenre) {
 						isMovieMatchingGenre = true;
-						System.out.println("The Kiosk has the following movies of this genre available: ");
+						System.out.println("The kiosk has the following movies in that genre:");
 					}
 					System.out.println(movieToCheck);
 				}
@@ -628,7 +628,7 @@ public class Kiosk {
 			}			
 
 			if (!isMovieMatchingGenre) {
-				System.out.println("There are no movies in this genre right now.");
+				System.out.println("The kiosk has the following movies in that genre: ");
 			} 			
 		}
 		
@@ -657,7 +657,7 @@ public class Kiosk {
 				if (movieToCheck.getYear() == movieYear) {
 					if (!isMovieMatchingYear) {
 						isMovieMatchingYear = true;
-						System.out.println("This Kiosk has the following movies of this year available: ");
+						System.out.println("The kiosk has the following movies by that year: ");
 					}
 					System.out.println(movieToCheck);
 				}
@@ -674,7 +674,7 @@ public class Kiosk {
 			}			
 
 			if (!isMovieMatchingYear) {
-				System.out.println("There are no movies of this year right now.");
+				System.out.println("The kiosk has the following movies by that year: ");
 			} 						
 		}
 
