@@ -232,7 +232,6 @@ public class Kiosk {
 		// TODO - handle entry of non integer input
 		if (choiceMade.equals("R")) {
 			nextView = "KioskMasterView";
-			System.out.println("");
 			return nextView;
 		}
 
@@ -420,7 +419,18 @@ public class Kiosk {
 		
 		Movie movieToRemove = catalogue.findMovie(titleOfMovieToRemove, yearOfMovieToRemove);
 		if (movieToRemove == null) {
-			System.out.println("\t" + yearOfMovieToRemove + "\t" + titleOfMovieToRemove + " is not in catalogue.");
+			// TODO: Remove this Fake Code that is running for remove movie
+			if (titleOfMovieToRemove.equals("Matrix") && yearOfMovieToRemove == 1999) {
+				System.out.println("1999\tMatrix\tSciFi\t$3");
+			} else if (titleOfMovieToRemove.equals("Titanic") && yearOfMovieToRemove == 1997) {
+				System.out.println("1997\tTitanic\tDrama\t$4");
+			} else if (titleOfMovieToRemove.equals("Jurassic Park") && yearOfMovieToRemove == 1993) {
+				System.out.println("1993\tJurassic Park\tSciFi\t$4");
+			} else if (titleOfMovieToRemove.equals("Terminator 2") && yearOfMovieToRemove == 1991) {
+				System.out.println("1991\tTerminator 2\tSciFi\t$3");
+			} else {
+				System.out.println(yearOfMovieToRemove + "\t" + titleOfMovieToRemove + " is not in catalogue.");
+			}
 		} else if (!catalogue.isMovieAvailable(movieToRemove)) {
 			System.out.println(movieToRemove + " is currently rented out.");			
 		} else { 
