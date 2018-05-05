@@ -733,7 +733,7 @@ public class Kiosk {
 		System.out.println(" ");
 
 		// Find a valid customer ID, to return a movie for
-		System.out.print("Enter a customer ID: ");		
+		System.out.print("Enter a valid customer ID: ");		
 		int idCustomerWhoWantsToReturn = inputScanner.nextInt();
 		inputScanner.nextLine(); // do this to skip the enter button press
 		while (!isCustomerIDInUse(idCustomerWhoWantsToReturn)) {
@@ -743,6 +743,15 @@ public class Kiosk {
 			inputScanner.nextLine();
 		}
 		Customer customerReturningMovie = findCustomer(idCustomerWhoWantsToReturn);
+
+		// List out all the movies rented by this customer
+		System.out.println(customerReturningMovie.getName() + " has the following movies:");
+		System.out.println("Movies currently rented by " + customerReturningMovie.getName());
+		Iterator<Movie> movieIterator = customerReturningMovie.getCurrentlyRented().iterator();
+		while (movieIterator.hasNext()) {
+			System.out.println(movieIterator.next());
+		}
+		
 		
 		System.out.print("Enter the title of the movie you wish to return: ");
 		String nameMovieToRent = inputScanner.nextLine();
@@ -762,7 +771,7 @@ public class Kiosk {
 		} else {
 			catalogue.returnAMovie(movieToReturn);
 			customerReturningMovie.returnAMovie(movieToReturn);
-			System.out.println("Movie returned.");
+			System.out.println(movieToReturn.getTitle() + "has been returned.");
 		}
 
 		System.out.println("");

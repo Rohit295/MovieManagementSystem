@@ -55,6 +55,10 @@ public class Customer {
 		this.balance = balance;
 	}
 
+	public List<Movie> getCurrentlyRented() {
+		return currentlyRented;
+	}
+	
 	/** 
 	 * Use this to check if this Customer can rent a Movie at all
 	 * @param movieToRent
