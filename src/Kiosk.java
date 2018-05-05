@@ -24,7 +24,7 @@ public class Kiosk {
 	private void use() {
 		// Bootstrap the Kiosk with initial data
 		// First, I will  add 3 Test Customers
-		Customer newCustomer1 = new Customer(101, "Jamie", 10);
+		Customer newCustomer1 = new Customer(101, "Jaime", 10);
 		this.customers.add(newCustomer1);
 		Customer newCustomer2 = new Customer(102, "Luke", 10);
 		this.customers.add(newCustomer2);
@@ -34,14 +34,14 @@ public class Kiosk {
 		// Second, I will add 5 Test Movies
 		Movie newMovie1 = new Movie("Matrix", 1999, new Genre("SciFi"), 3);
 		catalogue.addMovieToCatalogue(newMovie1);
-		Movie newMovie2 = new Movie("Titanic", 1997, new Genre("Drama"), 4);
-		catalogue.addMovieToCatalogue(newMovie2);
-		Movie newMovie3 = new Movie("The Silence of the Lambs", 1991, new Genre("Crime"), 3);
-		catalogue.addMovieToCatalogue(newMovie3);
 		Movie newMovie4 = new Movie("Jurassic Park", 1993, new Genre("SciFi"), 4);
 		catalogue.addMovieToCatalogue(newMovie4);
 		Movie newMovie5 = new Movie("Terminator 2", 1991, new Genre("SciFi"), 3);
 		catalogue.addMovieToCatalogue(newMovie5);
+		Movie newMovie2 = new Movie("Titanic", 1997, new Genre("Drama"), 4);
+		catalogue.addMovieToCatalogue(newMovie2);
+		Movie newMovie3 = new Movie("The Silence of the Lambs", 1991, new Genre("Crime"), 3);
+		catalogue.addMovieToCatalogue(newMovie3);
 		
 		runKioskMasterView();
 		runKioskActions("KioskMasterView");
@@ -295,7 +295,7 @@ public class Kiosk {
 		}
 
 		// AMRI: understand why I am printing out one customer here and looping for all the others
-		System.out.println("The Kiosk has the following customers.");			
+		System.out.println("The Kiosk has the following customers:");			
 		System.out.println(customerIterator.next());
 		while (customerIterator.hasNext()) {
 			System.out.println(customerIterator.next());	
@@ -419,7 +419,7 @@ public class Kiosk {
 		// Check to see if Movie is already in catalogue and only add if not already present
 		if (catalogue.findMovie(newMovie.getTitle(), newMovie.getYear()) != null) {
 			System.out.println("The movie is already in the catalogue.");
-			System.out.println("");
+			//System.out.println("");
 			return "KioskAdminView";
 		}
 		
@@ -545,8 +545,7 @@ public class Kiosk {
 			}			
 			while (moviesRentedIterator.hasNext()) {
 				System.out.println(moviesRentedIterator.next());
-			}			
-				
+			}							
 		}
 
 		System.out.println("");
