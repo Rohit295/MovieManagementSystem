@@ -522,7 +522,7 @@ public class Kiosk {
 		Iterator<Movie> moviesAvailableIterator = this.catalogue.getMoviesAvailable().iterator();
 		System.out.println("The Kiosk has the following movies: ");
 		if (!moviesRentedIterator.hasNext() && !moviesAvailableIterator.hasNext()) {
-			System.out.println(" ");
+			System.out.println("");
 		} else {
 			while (moviesAvailableIterator.hasNext()) {
 				System.out.println(moviesAvailableIterator.next());
