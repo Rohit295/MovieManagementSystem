@@ -372,11 +372,10 @@ public class Kiosk {
 		System.out.print("Enter a customer ID: ");		
 		int idCustomerToRemove = inputScanner.nextInt();
 		inputScanner.nextLine(); // do this to skip the enter button press
-		while (!isCustomerIDInUse(idCustomerToRemove)) {
-			System.out.print("ID does not exist. Enter a valid customer ID: ");
-			
-			idCustomerToRemove = inputScanner.nextInt();
-			inputScanner.nextLine();
+		if (!isCustomerIDInUse(idCustomerToRemove)) {
+			System.out.print("That customer does not exist.");
+			System.out.println("");
+			return "KioskAdminView";
 		}
 		
 		Customer customerToRemove = findCustomer(idCustomerToRemove);
