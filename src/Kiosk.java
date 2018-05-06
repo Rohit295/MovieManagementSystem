@@ -84,6 +84,12 @@ public class Kiosk {
 		String choiceMade = inputScanner.nextLine();
 		
 		// our user could have entered an Integer OR character. process after knowing what has been entered
+		if (!( choiceMade.equals("1") || choiceMade.equals("2") || choiceMade.equals("3") || choiceMade.equals("4") || choiceMade.equals("5") 
+				|| choiceMade.equals("X") )) {
+			System.out.println("Please enter a number between 1 and 5, or press X to exit.");			
+			return "KioskMasterView";	
+		}
+			
 		if (choiceMade.equals("X")) {
 			nextView = "Exit";
 			return nextView;
