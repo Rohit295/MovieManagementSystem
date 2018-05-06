@@ -191,7 +191,7 @@ public class Kiosk {
 			return "KioskMasterView";			
 		}
 		
-		System.out.print("Enter the top up amount: ");
+		System.out.print("Enter the top-up amount: ");
 		int amountToTopUp = inputScanner.nextInt();
 		inputScanner.nextLine(); // do this to skip the enter button press
 
@@ -230,21 +230,18 @@ public class Kiosk {
 		
 		// check to see that there are favorite movies. If yes, list them, else error message and exit
 		if (customerFavoriteMovies.size() == 0) {
-			System.out.print("This customer does not have favorite movies yet. ");
+			System.out.print("This customer does not have favourite movies yet. ");
 			System.out.println("");
 			return "KioskMasterView";						
 		}
 
-		System.out.println(customerToListFavorites.getName() +"'s favorite movies are:");
+		System.out.println(customerToListFavorites.getName() +"'s favourite movies are:");
 		Iterator<Movie> favMoviesIterator = customerFavoriteMovies.iterator();
-		while (favMoviesIterator.hasNext()) {
-			int countOfMovies = 0;
-			while (favMoviesIterator.hasNext() && countOfMovies < 3) {
-				System.out.println(favMoviesIterator.next());
-				countOfMovies++;
-			}
-		}
-		
+		int countOfMovies = 1;
+		while (favMoviesIterator.hasNext() && countOfMovies <= 3) {
+			System.out.println(favMoviesIterator.next());
+			countOfMovies++;
+		}		
 		System.out.println("");
 		return "KioskMasterView";
 	}
