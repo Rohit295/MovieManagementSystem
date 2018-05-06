@@ -257,6 +257,13 @@ public class Kiosk {
 		String choiceMade = inputScanner.nextLine();
 		
 		// TODO - handle entry of non integer input
+		// our user could have entered an Integer OR character. process after knowing what has been entered
+		if (!( choiceMade.equals("1") || choiceMade.equals("2") || choiceMade.equals("3") || choiceMade.equals("4") || choiceMade.equals("5") 
+				|| choiceMade.equals("6") || choiceMade.equals("R") )) {
+			System.out.println("Please enter a number between 1 and 6 or press R to return to previous menu.");			
+			return "KioskAdminView";	
+		}
+			
 		if (choiceMade.equals("R")) {
 			nextView = "KioskMasterView";
 			return nextView;
@@ -496,6 +503,12 @@ public class Kiosk {
 		String choiceMade = inputScanner.nextLine();
 		
 		// our user could have entered an Integer OR character. process after knowing what has been entered
+		if (!( choiceMade.equals("1") || choiceMade.equals("2") || choiceMade.equals("3") || choiceMade.equals("4") || choiceMade.equals("5") 
+				|| choiceMade.equals("6") || choiceMade.equals("7") || choiceMade.equals("R") )) {
+			System.out.println("Please enter a number between 1 and 7 or press R to return to previous menu.");			
+			return "KioskCatalogueView";	
+		}
+			
 		if (choiceMade.equals("R")) {
 			nextView = "KioskMasterView";
 			return nextView;
