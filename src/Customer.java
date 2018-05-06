@@ -59,6 +59,10 @@ public class Customer {
 		return currentlyRented;
 	}
 	
+	public List<Movie> getRentingHistory() {
+		return rentingHistory;
+	}
+	
 	/** 
 	 * Use this to check if this Customer can rent a Movie at all
 	 * @param movieToRent

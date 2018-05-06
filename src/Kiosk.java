@@ -143,15 +143,6 @@ public class Kiosk {
 		int customerIDToProcessRecord = inputScanner.nextInt();
 		inputScanner.nextLine(); // do this to skip the enter button press
 		
-		/**
-		while (!isCustomerIDInUse(customerIDToTopUp )) {
-			System.out.print("ID does not exist. Enter a valid customer ID: ");
-			
-			customerIDToTopUp  = inputScanner.nextInt();
-			inputScanner.nextLine();
-		}
-		**/
-
 		if (!isCustomerIDInUse(customerIDToProcessRecord )) {
 			System.out.println("That customer does not exist. ");
 			
@@ -160,8 +151,20 @@ public class Kiosk {
 			
 		} 
 		
-		Customer customerToTopUp = findCustomer(customerIDToProcessRecord);
-		System.out.println(customerToTopUp);
+		Customer customerToProcess = findCustomer(customerIDToProcessRecord);
+		System.out.println("ID: " + customerToProcess.getID());
+		System.out.println("Name: " + customerToProcess.getName());
+		System.out.println("Balance: $" + customerToProcess.getBalance());
+		System.out.println("Movies currently rented by " + customerToProcess.getName() + ":");
+		Iterator<Movie> movieIterator = customerToProcess.getCurrentlyRented().iterator();
+		while (movieIterator.hasNext()) {
+			System.out.println(movieIterator.next());
+		}
+		System.out.println(customerToProcess.getName() + "'s renting history: ");
+		Iterator<Movie> rentingHistoryIterator = customerToProcess.getRentingHistory().iterator();
+		while (rentingHistoryIterator.hasNext()) {
+			System.out.println(rentingHistoryIterator.next());
+		}
 		
 		System.out.println("");
 		return "KioskMasterView";
@@ -505,7 +508,7 @@ public class Kiosk {
 		// our user could have entered an Integer OR character. process after knowing what has been entered
 		if (!( choiceMade.equals("1") || choiceMade.equals("2") || choiceMade.equals("3") || choiceMade.equals("4") || choiceMade.equals("5") 
 				|| choiceMade.equals("6") || choiceMade.equals("7") || choiceMade.equals("R") )) {
-			System.out.println("Please enter a number between 1 and 7 or press R to return to previous menu.");			
+			System.out.println("Please enter a number between 1 and 7 or press R to return to the previous menu.");			
 			return "KioskCatalogueView";	
 		}
 			
